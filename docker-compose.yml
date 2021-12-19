@@ -1,0 +1,59 @@
+version: '3'
+services:
+    web:
+        image: nginx:alpine
+        volumes:
+            - "./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+            - "./etc/ssl:/etc/ssl"
+            - "./web:/var/www/html"
+            - "./etc/nginx/default.template.conf:/etc/nginx/conf.d/default.template"
+        ports:
+            - "8000:80"
+            - "3000:443"
+        environment:
+            - NGINX_HOST=${NGINX_HOST}
+        command: /bin/sh -c "envsubst '$$NGINX_HOST' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;' && apt-get upgrade -y && apt install ffmpeg -y"
+        restart: always
+        depends_on:
+            - php
+            - mysqldb
+    php:
+        image: bitnami/php-fpm:latest
+        restart: always
+        volumes:
+            - "./etc/php/php.ini:/opt/bitnami/php/lib/php.ini"
+            - "./web:/var/www/html"
+        environment:
+            - PHP_OPCACHE_ENABLED=no
+    composer:
+        image: "composer"
+        volumes:
+            - "./web/public:/public"
+        command: install
+    myadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        ports:
+            - "8080:80"
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=${MYSQL_HOST}
+            - UPLOAD_LIMIT=300M
+        restart: always
+        depends_on:
+            - mysqldb
+    mysqldb:
+        image: mysql:${MYSQL_VERSION}
+        container_name: ${MYSQL_HOST}
+        restart: always
+        env_file:
+            - ".env"
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        ports:
+            - "8989:3306"
+        volumes:
+            - "./data/db/mysql:/var/lib/mysql"

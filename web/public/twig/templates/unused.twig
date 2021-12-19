@@ -1,0 +1,1296 @@
+<html dir="ltr" lang="en">
+	<!-- machid: sWkFSZzctYUFHdmc5aHQ2dTdDTk9BM2RMRzlNUmx2dW9yMW40cERhc0xkU01LbmcxTVdwbTNR -->
+	<head>
+		<script>
+			var yt = yt || {};
+			yt.timing = yt.timing || {};
+			yt.timing.cookieName = 'VISITOR_INFO1_LIVE';
+			yt.timing.tick = function(label) {
+				var timer = yt.timing.timer || {};
+				timer[label] = new Date().getTime();
+				yt.timing.timer = timer;
+			};
+				yt.timing.experiment = '907044,906820';
+			
+				yt.timing.tick('start');
+			
+			try {
+				yt.timing.pt = window.gtbExternal && window.gtbExternal.pageT() ||
+							window.external && window.external.pageT;
+			} catch(e) {}
+			if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+				yt.timing.pt = window.chrome && window.chrome.csi && Math.floor(window.chrome.csi().pageT);
+			}
+		</script>
+		<title>
+            {{ metadata.og_context.title }}
+		</title>
+		<link id="www-core-css" rel="stylesheet" href="/yt/cssbin/www-core-vfl186161.css">
+		<style type="text/css"></style>
+		<link rel="canonical" href="/">
+		<meta name="description" content="YouTube is a place to discover, watch, upload and share videos.">
+		<meta name="keywords" content="video, free, simple, search, find, discover, watch, engage, share, sharing, upload, entertainment">
+		<script id="www-core-js" src="/yt/jsbin/www-core-vfl186132.js"></script>
+		<!-- begin postpage section -->
+		<script>
+			yt.setConfig({
+				'XSRF_TOKEN': 'lrcuI-tYwafkAvTQirtPfpmHzOh8MTI4MzEwNjU1NQ==',
+				'XSRF_FIELD_NAME': 'session_token'
+			});
+			yt.pubsub.subscribe('init', yt.www.xsrf.populateSessionToken);
+			
+			
+			yt.setConfig('XSRF_QL_PAIR', 'session_token=CYGIwcjoHTtJmmAeaPi4RNO2Ex18MA==');
+			
+			
+			
+			yt.setConfig('LOGGED_IN', false);
+		</script>
+		<script type="text/javascript">
+			var masthead = new yt.www.home.ads.mastheadAd('1', false, '2', '_1ZbLRAiVlo', true, true, false)
+			yt.pubsub.subscribe('init', function() {
+				_showdiv('masthead-utility-menulink-short');
+				_hidediv('masthead-utility-menulink-long');
+			});
+			
+		</script>
+		<script type="text/javascript">
+			var moduleHelper = new yt.www.home.ModuleHelper('',
+					false, true);
+				moduleHelper.addModule('FEA');
+				moduleHelper.addModule('REC');
+				moduleHelper.addModule('POP');
+				moduleHelper.addModule('PRO');
+				moduleHelper.addModule('TOP');
+			
+			function checkChromePromoAlert() {
+				var hideChromePromos = yt.UserPrefs.getFlag3(yt.UserPrefs.Flags.FLAG3_HIDE_CHROME_PROMOS);
+			
+				if (!hideChromePromos) {
+					_showdiv('homepage-chrome-side-promo');
+				}
+			};
+			
+			yt.pubsub.subscribe('init', checkChromePromoAlert);
+			
+			function dismissChromePromoAlert() {
+				yt.UserPrefs.setFlag3(yt.UserPrefs.Flags.FLAG3_HIDE_CHROME_PROMOS, true);
+				yt.UserPrefs.save();
+				_hidediv('homepage-chrome-side-promo');
+			};
+			
+			
+			yt.pubsub.subscribe('init', function() {
+				(function() {
+					var sessionToken = '';
+					var rootUrl = 'http://www.youtube.com/';
+					var locale = 'en_US';
+					var serviceInfo = null;
+					var isGaiaUser = false;
+					var facebookAppKey = '7ff82e59b6b2fbd316cca35309e95df3';
+					var tpDomain = 's.youtube-3rd-party.com';
+			
+					var autoshare = new yt.sharing.AutoShare(sessionToken, rootUrl, locale, serviceInfo,
+							isGaiaUser, facebookAppKey, tpDomain);
+					if (_gel('fb-login-btn')) {
+						autoshare.registerConnectDialogLauncher(_gel('fb-login-btn'), 'facebook');
+					}
+			
+					var gaiaChangedCallback = function(autoshare) {
+						var isGaiaUser = autoshare.isGaiaUser();
+						yt.style.setDisplayed('fb-promo-google-nag', !isGaiaUser);
+						yt.style.setDisplayed('fb-promo-google-linked', isGaiaUser);
+			
+						if (isGaiaUser) {
+							var link = _gel('fb-promo-google-linked-continue-to-fb');
+							var fn = function() {
+								autoshare.handleConnectService({currentTarget: _gel('fb-login-btn')});
+							}
+							link.onclick = fn;
+						}
+					}
+					autoshare.addGaiaChangedCallback(gaiaChangedCallback);
+			
+					var canConnectCallback = function(autoshare) {
+						var isGaiaUser = autoshare.isGaiaUser();
+						yt.style.setDisplayed('fb-promo-google-nag', !isGaiaUser);
+						yt.style.setDisplayed('fb-promo-google-linked', false);
+						yt.style.setDisplayed('fb-promo-fb-linked', false);
+						return isGaiaUser;
+					}
+					autoshare.addCanConnectCallback(canConnectCallback);
+			
+					var serviceChangedCallback = function(autoshare) {
+						var serviceInfo = autoshare.getServiceInfo();
+						for (var service in serviceInfo) {
+							var info = serviceInfo[service];
+							if (service == 'facebook' && info['is_connected']) {
+								yt.style.setDisplayed('fb-promo-fb-linked', true);
+								hideFbPromoAlert();
+							}
+						}
+					};
+					autoshare.addServiceChangedCallback(serviceChangedCallback);
+			
+			
+					window['autoshare'] = autoshare;
+			
+					var prefs = yt.UserPrefs;
+					var optOut = prefs.getFlag3(prefs.Flags.FLAG3_FBPROMO_OPT_OUT);
+					if (!optOut) {
+						_showdiv('fb-promo1');
+					}
+			
+					// The user has "dismissed" the promo, i.e., clicked on the [x].
+					// This is distinct from simply hiding the promo as a side effect.
+					window.dismissFbPromoAlert = function() {
+						prefs.setFlag3(prefs.Flags.FLAG3_FBPROMO_OPT_OUT, true);
+						prefs.save();
+						hideFbPromoAlert();
+					};
+			
+					function hideFbPromoAlert() {
+						_hidediv('fb-promo1');
+					}
+			})();
+			
+			});
+		</script>
+		<script>
+			// Initialize the inline "edit subscription" link featurette in the
+			// Recent Activity module.
+			window['subui_'] = new yt.www.home.Subscriptions();
+			yt.pubsub.subscribe('init', function() {
+				window['subui_'].setCurrentLink(_gel('_firsteditsublink'));
+			});
+		</script>
+		<script>
+			if (window.yt.timing) {
+				yt.timing.tick('ct');
+			}
+		</script>
+	</head>
+	<body class="date-20100828 en_US is-english watch5-active" dir="ltr">
+		<!--[if IE]>
+		<div id="ie">
+			<![endif]-->
+			<!-- begin prepage section -->
+			<form name="logoutForm" method="post" action="/">
+				<input type="hidden" name="action_logout" value="1">
+			</form>
+			<!-- end prepage section -->
+			<div id="page" class="">
+				<div id="masthead-container">{% include 'header.twig' %}</div>
+			</div>
+			<div id="baseDiv" class="date-20100828 video-info ">
+				<div id="masthead_child_div"></div>
+				<script type="text/javascript">
+					var masthead_child_fo = new SWFObject("http://s.ytimg.com/yt/swf/masthead_child-vfl89464.swf", "masthead_child", 1, 1, 7, "#FFFFFF");
+					masthead_child_fo.addParam("allowFullscreen", "false");
+					masthead_child_fo.addParam("allowScriptAccess", "always");
+					masthead_child_fo.write("masthead_child_div");
+				</script>
+				<div id="homepage-main-content" class="homepage-non-interactive">
+					<div id="dragdrop" style="overflow: hidden; clear: both;">
+						<div id="feedmodule-FEA" class="feedmodule-anchor">
+							<div class="feedmodule-modheader" id="FEA-titlebar">
+								<div id="feed_featured">
+									<div class="fm-title-underlined-gray">
+										<div class="fm2-title">
+											<span class="fm2-titleText" id="feed_featured-titleText">Best of Bed Intruder</span>
+										</div>
+										<div class="feedmodule-updown">
+											<span id="mup-FEA" class="up-button"><img class="master-sprite img-php-up-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mdown-FEA" class="down-button"><img class="master-sprite img-php-down-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mclose-FEA"><img class="master-sprite img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear" id="feed_featured-content">
+								<div id="FEA-options" class="opt-pane" style="display: none;">
+									<div class="opt-box-top">
+										<img class="homepage-sprite img-php-opt-box-caret" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif">
+									</div>
+									<div class="opt-banner">
+										<div class="opt-links">
+											<div class="opt-edit">Editing: Best of Bed Intruder</div>
+											<div class="opt-close opt-close-button" onclick="moduleHelper.closeOptionsPane('FEA')"><img class="img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></div>
+											<div class="opt-close opt-close-text" onclick="moduleHelper.closeOptionsPane('FEA')">close</div>
+											<div id="FEA-loading-msg" class="opt-loading-msg" style="display: none;">
+												Saving...
+											</div>
+											<div id="FEA-loading-icn" class="opt-loading-icn" style="display: none;">
+												<img id="FEA-loading-icn-image" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" image="http://s.ytimg.com/yt/img/icn_loading_animated-vfl24663.gif" width="16">
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="opt-main">
+										<div class="opt-simple-msg">
+											Want to customize this homepage?
+											<a href="https://www.google.com/accounts/ServiceLogin?uilel=3&amp;service=youtube&amp;passive=true&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26nomobiletemp%3D1%26hl%3Den_US%26next%3D%252F&amp;hl=en_US&amp;ltmpl=sso" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignIn/EditModuleBox');">Sign In</a> or <a href="https://www.google.com/accounts/LogoutWarning?continue=http%3A%2F%2Fwww.youtube.com%2Fcreate_account%3Fnext%3DNone&amp;ltmpl=sso&amp;hl=en_US&amp;service=youtube" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignUp/EditModuleBox');">Sign Up</a> now!
+										</div>
+									</div>
+								</div>
+								<div id="FEA-data" class="feedmodule-data">
+									<div class="feedmodule-feditor">
+										<div class="feedmodule-feditor-img user-thumb-large" style="margin-right: 10px">
+											<div>
+												<a href="/KnowYourMeme"><img src="http://i3.ytimg.com/i/brPqq29C9Q_TQP7OFFRzcw/1.jpg?v=9a7d94" alt="editor image"></a>
+											</div>
+										</div>
+										<div class="guest-editor-with-comment">
+											<div class="guest-editor-profile-link"><a href="/KnowYourMeme">KnowYourMeme</a></div>
+											<div class="guest-editor-comment">An explanation -- and celebration -- of the meme that's making Antoine Dodson a household name.</div>
+										</div>
+										<div class="spacer">&nbsp;</div>
+									</div>
+									<div class="feedmodule-body grid-view">
+										<div class="clearL">
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=v4heeD4B4cw&amp;feature=featured" class="video-thumb ux-thumb-128" id="video-thumb-v4heeD4B4cw-2769692"><span class="img"><img onload="" onclick="ieThumbEvent(event, this); " title="&quot;Rapin' Erebody's Rainbows&quot; (Acoustic Mashup)" alt="&quot;Rapin' Erebody's Rainbows&quot; (Acoustic Mashup)" src="http://i3.ytimg.com/vi/v4heeD4B4cw/default.jpg" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');"></span>		
+													<span class="video-time">2:26</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-v4heeD4B4cw-2769692', null, 'v4heeD4B4cw', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-v4heeD4B4cw">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=v4heeD4B4cw&amp;feature=featured" rel="nofollow" title="&quot;Rapin' Erebody's Rainbows&quot; (Acoustic Mashup)" class="" id="video-short-title-v4heeD4B4cw" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">"Rapin' Erebody's Rainbows" (Aco...</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=v4heeD4B4cw&amp;feature=featured" rel="nofollow" title="&quot;Rapin' Erebody's Rainbows&quot; (Acoustic Mashup)" class="" id="video-long-title-v4heeD4B4cw" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">"Rapin' Erebody's Rainbows" (Acoustic Mashup)</a>
+																<div class="video-logos">
+																</div>
+															</div>
+														</div>
+														<div id="video-description-v4heeD4B4cw" dir="ltr" class="video-description">
+															☄DOWNLOAD: http://www.mediafire.com/?obat4ettcev6oei
+															☄ FACEBOOK: http://www.faceb...
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-v4heeD4B4cw" class="video-date-added">3 weeks ago</span>
+															<span id="video-num-views-v4heeD4B4cw" class="video-view-count">172,431 views
+															</span>
+															<span class="video-username"><a id="video-from-username-v4heeD4B4cw" class="hLink" href="/user/omnomnomandrew">omnomnomandrew</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=45T4eHu0o80&amp;feature=featured" class="video-thumb ux-thumb-128" id="video-thumb-45T4eHu0o80-312123"><span class="img"><img onload="" onclick="ieThumbEvent(event, this); " title="Know Your Meme: Antoine Dodson / Bed Intruder" alt="Know Your Meme: Antoine Dodson / Bed Intruder" src="http://i1.ytimg.com/vi/45T4eHu0o80/default.jpg" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');"></span>		
+													<span class="video-time">4:35</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-45T4eHu0o80-312123', null, '45T4eHu0o80', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-45T4eHu0o80">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=45T4eHu0o80&amp;feature=featured" rel="nofollow" title="Know Your Meme: Antoine Dodson / Bed Intruder" class="" id="video-short-title-45T4eHu0o80" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">Know Your Meme: Antoine Dodson /...</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=45T4eHu0o80&amp;feature=featured" rel="nofollow" title="Know Your Meme: Antoine Dodson / Bed Intruder" class="" id="video-long-title-45T4eHu0o80" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">Know Your Meme: Antoine Dodson / Bed Intruder</a>
+																<div class="video-logos">
+																	<a href="/watch?v=45T4eHu0o80&amp;feature=featured&amp;hd=1"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="master-sprite hd-video-logo video-logo"></a>
+																</div>
+															</div>
+														</div>
+														<div id="video-description-45T4eHu0o80" dir="ltr" class="video-description">
+															Internet Scientist ElspethJane from the Rocketboom Institute for Internet Studies ...
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-45T4eHu0o80" class="video-date-added">1 day ago</span>
+															<span id="video-num-views-45T4eHu0o80" class="video-view-count">305 views
+															</span>
+															<span class="video-username"><a id="video-from-username-45T4eHu0o80" class="hLink" href="/user/KnowYourMeme">KnowYourMeme</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=H08EXnT0Pz0&amp;feature=featured" class="video-thumb ux-thumb-128" id="video-thumb-H08EXnT0Pz0-8837693"><span class="img"><img onload="" onclick="ieThumbEvent(event, this); " title="Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck" alt="Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck" src="http://i1.ytimg.com/vi/H08EXnT0Pz0/default.jpg" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');"></span>		
+													<span class="video-time">1:17</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-H08EXnT0Pz0-8837693', null, 'H08EXnT0Pz0', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-H08EXnT0Pz0">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=H08EXnT0Pz0&amp;feature=featured" rel="nofollow" title="Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck" class="" id="video-short-title-H08EXnT0Pz0" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">Bed Intruder Ft. Hayley Williams...</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=H08EXnT0Pz0&amp;feature=featured" rel="nofollow" title="Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck" class="" id="video-long-title-H08EXnT0Pz0" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck</a>
+																<div class="video-logos">
+																</div>
+															</div>
+														</div>
+														<div id="video-description-H08EXnT0Pz0" dir="ltr" class="video-description">
+															"Bed Intruder" (Pop Punk Cover)
+															Hayley Williams of Paramore
+															Jordan Pundik of N...
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-H08EXnT0Pz0" class="video-date-added">2 days ago</span>
+															<span id="video-num-views-H08EXnT0Pz0" class="video-view-count">204,693 views
+															</span>
+															<span class="video-username"><a id="video-from-username-H08EXnT0Pz0" class="hLink" href="/user/ethanluck">ethanluck</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=Q3UsvLyu3N0&amp;feature=featured" class="video-thumb ux-thumb-128" id="video-thumb-Q3UsvLyu3N0-3057801"><span class="img"><img onload="" onclick="ieThumbEvent(event, this); " title="&quot;The Original&quot; NC A&amp;T - Bed Intruder Song 8.11.2010" alt="&quot;The Original&quot; NC A&amp;T - Bed Intruder Song 8.11.2010" src="http://i2.ytimg.com/vi/Q3UsvLyu3N0/default.jpg" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');"></span>		
+													<span class="video-time">3:26</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-Q3UsvLyu3N0-3057801', null, 'Q3UsvLyu3N0', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-Q3UsvLyu3N0">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=Q3UsvLyu3N0&amp;feature=featured" rel="nofollow" title="&quot;The Original&quot; NC A&amp;T - Bed Intruder Song 8.11.2010" class="" id="video-short-title-Q3UsvLyu3N0" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">"The Original" NC A&amp;T - Bed Intr...</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=Q3UsvLyu3N0&amp;feature=featured" rel="nofollow" title="&quot;The Original&quot; NC A&amp;T - Bed Intruder Song 8.11.2010" class="" id="video-long-title-Q3UsvLyu3N0" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/FEA/Logged_Out');">"The Original" NC A&amp;T - Bed Intruder Song 8.11.2010</a>
+																<div class="video-logos">
+																	<a href="/watch?v=Q3UsvLyu3N0&amp;feature=featured&amp;hd=1"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="master-sprite hd-video-logo video-logo"></a>
+																</div>
+															</div>
+														</div>
+														<div id="video-description-Q3UsvLyu3N0" dir="ltr" class="video-description">
+															Disclaimer: This is the original video of mine that I posted...
+															NC A&amp;T Blue &amp; G...
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-Q3UsvLyu3N0" class="video-date-added">2 weeks ago</span>
+															<span id="video-num-views-Q3UsvLyu3N0" class="video-view-count">147,791 views
+															</span>
+															<span class="video-username"><a id="video-from-username-Q3UsvLyu3N0" class="hLink" href="/user/SpeechlessQue">SpeechlessQue</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div id="feedmodule-REC" class="feedmodule-anchor">
+							<div class="feedmodule-modheader" id="REC-titlebar">
+								<div id="feed_recommended">
+									<div class="fm-title-underlined-gray">
+										<div class="fm2-title">
+											<span class="fm2-titleText" id="feed_recommended-titleText"><a href="/videos?r=1" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/View_Recommended/Logged_Out');">Recommended for You</a></span>
+										</div>
+										<div class="feedmodule-preamble" style="border-bottom: 1px dotted;">
+											<a href="#" onclick="_showdiv('logged_out_rec_learn_more_box');return false;" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/Rec_LearnMore_Open');">Learn More</a>
+										</div>
+										<div class="feedmodule-updown">
+											<span id="medit-REC" class="iyt-edit-link iyt-edit-link-gray">Edit</span>
+											<span id="mup-REC" class="up-button"><img class="master-sprite img-php-up-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mdown-REC" class="down-button"><img class="master-sprite img-php-down-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mclose-REC"><img class="master-sprite img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear" id="feed_recommended-content">
+								<div id="REC-options" class="opt-pane" style="display: none;">
+									<div class="opt-box-top">
+										<img class="homepage-sprite img-php-opt-box-caret" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif">
+									</div>
+									<div class="opt-banner">
+										<div class="opt-links">
+											<div class="opt-edit">Editing: Recommended for You</div>
+											<div class="opt-close opt-close-button" onclick="moduleHelper.closeOptionsPane('REC')"><img class="img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></div>
+											<div class="opt-close opt-close-text" onclick="moduleHelper.closeOptionsPane('REC')">close</div>
+											<div id="REC-loading-msg" class="opt-loading-msg" style="display: none;">
+												Saving...
+											</div>
+											<div id="REC-loading-icn" class="opt-loading-icn" style="display: none;">
+												<img id="REC-loading-icn-image" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" image="http://s.ytimg.com/yt/img/icn_loading_animated-vfl24663.gif" width="16">
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="opt-main">
+										<div class="opt-simple-msg">
+											Want to customize this homepage?
+											<a href="https://www.google.com/accounts/ServiceLogin?uilel=3&amp;service=youtube&amp;passive=true&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26nomobiletemp%3D1%26hl%3Den_US%26next%3D%252F&amp;hl=en_US&amp;ltmpl=sso" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignIn/EditModuleBox');">Sign In</a> or <a href="https://www.google.com/accounts/LogoutWarning?continue=http%3A%2F%2Fwww.youtube.com%2Fcreate_account%3Fnext%3DNone&amp;ltmpl=sso&amp;hl=en_US&amp;service=youtube" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignUp/EditModuleBox');">Sign Up</a> now!
+										</div>
+									</div>
+								</div>
+								<div id="REC-data" class="feedmodule-data">
+									<div id="logged_out_rec_learn_more_box" class="side-announcement-box" style="margin: 5px 10px 5px 5px; padding: 5px; display: none; zoom: 1;">
+										<div style="cursor: pointer; display:inline; float: right;" onclick="_hidediv('logged_out_rec_learn_more_box'); return false;" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/Rec_LearnMore_Close');"><img class="img-php-close-button master-sprite" style="background-position: -82px -712px;" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></div>
+										<div style="color: black; padding-left: 5px;">
+											The "Recommended for You" module picks videos based on your viewing history. To see your <a href="/my_history">viewing history</a>, click on the History link at the top right of the page; if you want to clear your history and recommendations, click the "Clear Viewing History" button on that page.
+										</div>
+									</div>
+									<div class="feedmodule-body grid-view">
+										<div class="clearL">
+                                        	{% for result in rows.recommended_for_you_index %}
+                                                {% if result.id is defined %}
+                                                    <div id="reco-Gj9NjTgp9kM" class="video-cell" style="width:24.5%" onmouseover="_showdiv('REMOVE-Gj9NjTgp9kM');" onmouseout="_hidediv('REMOVE-Gj9NjTgp9kM');">
+                                                        <div class="video-entry" style="position:relative">
+                                                            <div class="hid" id="REMOVE-Gj9NjTgp9kM" style="position:absolute;top:0px;left:140px;z-index:1" onclick="yt.www.recos.removeRecommendation('Gj9NjTgp9kM');return false">
+                                                                <img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="master-sprite img-php-close-button">
+                                                            </div>
+                                                            <a href="/watch?v=Gj9NjTgp9kM&amp;feature=rec-LGOUT-farside_rn-2r-8-HM" class="video-thumb ux-thumb-128" id="video-thumb-Gj9NjTgp9kM-3688727"><span class="img"><img onload="" onclick="ieThumbEvent(event, this); " title="President Clinton has a message for President Obama about the BP Oil Spill : Just fix the leak" alt="President Clinton has a message for President Obama about the BP Oil Spill : Just fix the leak" src="http://i4.ytimg.com/vi/Gj9NjTgp9kM/default.jpg" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/REC/Logged_Out');"></span>		
+                                                            <span class="video-time">4:11</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-Gj9NjTgp9kM-3688727', null, 'Gj9NjTgp9kM', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+                                                            <div class="video-main-content video-title-one-line" id="video-main-content-Gj9NjTgp9kM">
+                                                                <div dir="ltr" class="video-title ">
+                                                                    <div class="video-short-title">
+                                                                        <a href="/watch?v=Gj9NjTgp9kM&amp;feature=rec-LGOUT-farside_rn-2r-8-HM" rel="nofollow" title="President Clinton has a message for President Obama about the BP Oil Spill : Just fix the leak" class="" id="video-short-title-Gj9NjTgp9kM" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/REC/Logged_Out');">President Clinton has a message ...</a>
+                                                                    </div>
+                                                                    <div class="video-long-title">
+                                                                        <a href="/watch?v=Gj9NjTgp9kM&amp;feature=rec-LGOUT-farside_rn-2r-8-HM" rel="nofollow" title="President Clinton has a message for President Obama about the BP Oil Spill : Just fix the leak" class="" id="video-long-title-Gj9NjTgp9kM" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/REC/Logged_Out');">President Clinton has a message for President Obama about the BP Oi...</a>
+                                                                        <div class="video-logos">
+                                                                            <a href="/watch?v=Gj9NjTgp9kM&amp;feature=rec-LGOUT-farside_rn-2r-8-HM&amp;hd=1"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="master-sprite hd-video-logo video-logo"></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="video-description-Gj9NjTgp9kM" dir="ltr" class="video-description">
+                                                                    In the days following the BP Oil spill, the worst environmental disaster in our na...
+                                                                </div>
+                                                                <div class="video-facets">
+                                                                    <span id="video-added-time-Gj9NjTgp9kM" class="video-date-added">1 month ago</span>
+                                                                    <span id="video-num-views-Gj9NjTgp9kM" class="video-view-count">649 views
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="video-clear-list-left"></div>
+                                                            <div class="smallText grayText"><em>Because you watched</em></div>
+                                                            <div dir="ltr" class="video-title">
+                                                                <div class="smallText">
+                                                                    <a href="/watch?v=gr8eJGfoa_8" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/REC/Logged_Out');" title="WIKILEAKS Press Conference SVT Forum 5/5" rel="nofollow"><em>WIKILEAKS Press C...</em></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div id="feedmodule-POP" class="feedmodule-anchor">
+							<div class="feedmodule-modheader" id="POP-titlebar">
+								<div id="feed_popular">
+									<div class="fm-title-underlined-gray">
+										<div class="fm2-title">
+											<span class="fm2-titleText" id="feed_popular-titleText"><a href="/videos?s=pop" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/View_Popular/Logged_Out');">Videos Being Watched Now</a></span>
+										</div>
+										<div class="feedmodule-updown">
+											<span id="medit-POP" class="iyt-edit-link iyt-edit-link-gray">Edit</span>
+											<span id="mup-POP" class="up-button"><img class="master-sprite img-php-up-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mdown-POP" class="down-button"><img class="master-sprite img-php-down-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mclose-POP"><img class="master-sprite img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear" id="feed_popular-content">
+								<div id="POP-options" class="opt-pane" style="display: none;">
+									<div class="opt-box-top">
+										<img class="homepage-sprite img-php-opt-box-caret" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif">
+									</div>
+									<div class="opt-banner">
+										<div class="opt-links">
+											<div class="opt-edit">Editing: Videos Being Watched Now</div>
+											<div class="opt-close opt-close-button" onclick="moduleHelper.closeOptionsPane('POP')"><img class="img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></div>
+											<div class="opt-close opt-close-text" onclick="moduleHelper.closeOptionsPane('POP')">close</div>
+											<div id="POP-loading-msg" class="opt-loading-msg" style="display: none;">
+												Saving...
+											</div>
+											<div id="POP-loading-icn" class="opt-loading-icn" style="display: none;">
+												<img id="POP-loading-icn-image" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" image="http://s.ytimg.com/yt/img/icn_loading_animated-vfl24663.gif" width="16">
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="opt-main">
+										<div class="opt-simple-msg">
+											Want to customize this homepage?
+											<a href="https://www.google.com/accounts/ServiceLogin?uilel=3&amp;service=youtube&amp;passive=true&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26nomobiletemp%3D1%26hl%3Den_US%26next%3D%252F&amp;hl=en_US&amp;ltmpl=sso" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignIn/EditModuleBox');">Sign In</a> or <a href="https://www.google.com/accounts/LogoutWarning?continue=http%3A%2F%2Fwww.youtube.com%2Fcreate_account%3Fnext%3DNone&amp;ltmpl=sso&amp;hl=en_US&amp;service=youtube" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignUp/EditModuleBox');">Sign Up</a> now!
+										</div>
+									</div>
+								</div>
+								<div id="POP-data" class="feedmodule-data">
+									<div class="feedmodule-body bigthumb-view">
+										<div class="feeditem-bigthumb super-large-video ">
+											<div class="feedmodule-thumbnail">	
+												<a href="/watch?v=Sm_5QRtyohI&amp;feature=popular" class="video-thumb ux-thumb-224" id="video-thumb-Sm_5QRtyohI-7812711"><span class="img"><img src="http://i4.ytimg.com/vi/Sm_5QRtyohI/hqdefault.jpg" title="Juventus - Sturm Graz 1-0 Gol di Del Piero" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');"></span>		
+												<span class="video-time">2:09</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-Sm_5QRtyohI-7812711', null, 'Sm_5QRtyohI', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+											</div>
+											<div class="feedmodule-singleform-info">
+												<div class="video-title">
+													<a href="/watch?v=Sm_5QRtyohI&amp;feature=popular" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');" title="‪Juventus - Sturm Graz 1-0 Gol di Del Piero‬‎" dir="ltr">Juventus - Sturm Graz 1-0 Gol di Del Piero</a>
+												</div>
+												<div>
+													43,169 views
+												</div>
+												<div>
+													<nobr>
+														<a href="/user/MrSantino1995">MrSantino1995</a>
+													</nobr>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-bigthumb normal-size-video ">
+											<div class="feedmodule-thumbnail">	
+												<a href="/watch?v=H08EXnT0Pz0&amp;feature=popular" class="video-thumb ux-thumb-128" id="video-thumb-H08EXnT0Pz0-2263319"><span class="img"><img src="http://i1.ytimg.com/vi/H08EXnT0Pz0/default.jpg" title="Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');"></span>		
+												<span class="video-time">1:17</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-H08EXnT0Pz0-2263319', null, 'H08EXnT0Pz0', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+											</div>
+											<div class="feedmodule-singleform-info">
+												<div class="video-title">
+													<a href="/watch?v=H08EXnT0Pz0&amp;feature=popular" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');" title="‪Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck‬‎" dir="ltr">Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Eth...</a>
+												</div>
+												<div>
+													204,693 views
+												</div>
+												<div>
+													<nobr>
+														<a href="/user/ethanluck">ethanluck</a>
+													</nobr>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-bigthumb normal-size-video ">
+											<div class="feedmodule-thumbnail">	
+												<a href="/watch?v=oEH5pMylo3Q&amp;feature=popular" class="video-thumb ux-thumb-128" id="video-thumb-oEH5pMylo3Q-1666316"><span class="img"><img src="http://i4.ytimg.com/vi/oEH5pMylo3Q/default.jpg" title="Barbie Gets Hacked!" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');"></span>		
+												<span class="video-time">2:27</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-oEH5pMylo3Q-1666316', null, 'oEH5pMylo3Q', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+											</div>
+											<div class="feedmodule-singleform-info">
+												<div class="video-title">
+													<a href="/watch?v=oEH5pMylo3Q&amp;feature=popular" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');" title="‪Barbie Gets Hacked!‬‎" dir="ltr">Barbie Gets Hacked!</a>
+												</div>
+												<div>
+													120,575 views
+												</div>
+												<div>
+													<nobr>
+														<a href="/user/kipkay">kipkay</a>
+													</nobr>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-bigthumb normal-size-video ">
+											<div class="feedmodule-thumbnail">	
+												<a href="/watch?v=H4L9mNNMDrs&amp;feature=popular" class="video-thumb ux-thumb-128" id="video-thumb-H4L9mNNMDrs-5084704"><span class="img"><img src="http://i1.ytimg.com/vi/H4L9mNNMDrs/default.jpg" title="Seahawks' fake snake prank" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');"></span>		
+												<span class="video-time">1:29</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-H4L9mNNMDrs-5084704', null, 'H4L9mNNMDrs', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+											</div>
+											<div class="feedmodule-singleform-info">
+												<div class="video-title">
+													<a href="/watch?v=H4L9mNNMDrs&amp;feature=popular" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/POP/Logged_Out');" title="‪Seahawks' fake snake prank‬‎" dir="ltr">Seahawks' fake snake prank</a>
+												</div>
+												<div>
+													49,356 views
+												</div>
+												<div>
+													<nobr>
+														<a href="/user/PeteCarrollTV">PeteCarrollTV</a>
+													</nobr>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="spacer">&nbsp;</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div id="feedmodule-PRO" class="feedmodule-anchor">
+							<div class="feedmodule-modheader" id="PRO-titlebar">
+								<div id="feed_promoted">
+									<div class="fm-title-underlined-blue">
+										<div class="fm2-title">
+											<span class="fm2-titleText" id="feed_promoted-titleText">Featured Videos</span>
+										</div>
+										<div class="feedmodule-updown">
+											<span id="mup-PRO" class="up-button"><img class="master-sprite img-php-up-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mdown-PRO" class="down-button"><img class="master-sprite img-php-down-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear" id="feed_promoted-content">
+								<div id="PRO-options" class="opt-pane" style="display: none;">
+									<div class="opt-box-top">
+										<img class="homepage-sprite img-php-opt-box-caret" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif">
+									</div>
+									<div class="opt-banner">
+										<div class="opt-links">
+											<div class="opt-edit">Editing: Featured Videos</div>
+											<div class="opt-close opt-close-button" onclick="moduleHelper.closeOptionsPane('PRO')"><img class="img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></div>
+											<div class="opt-close opt-close-text" onclick="moduleHelper.closeOptionsPane('PRO')">close</div>
+											<div id="PRO-loading-msg" class="opt-loading-msg" style="display: none;">
+												Saving...
+											</div>
+											<div id="PRO-loading-icn" class="opt-loading-icn" style="display: none;">
+												<img id="PRO-loading-icn-image" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" image="http://s.ytimg.com/yt/img/icn_loading_animated-vfl24663.gif" width="16">
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="opt-main">
+										<div class="opt-simple-msg">
+											Want to customize this homepage?
+											<a href="https://www.google.com/accounts/ServiceLogin?uilel=3&amp;service=youtube&amp;passive=true&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26nomobiletemp%3D1%26hl%3Den_US%26next%3D%252F&amp;hl=en_US&amp;ltmpl=sso" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignIn/EditModuleBox');">Sign In</a> or <a href="https://www.google.com/accounts/LogoutWarning?continue=http%3A%2F%2Fwww.youtube.com%2Fcreate_account%3Fnext%3DNone&amp;ltmpl=sso&amp;hl=en_US&amp;service=youtube" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignUp/EditModuleBox');">Sign Up</a> now!
+										</div>
+									</div>
+								</div>
+								<div id="PRO-data" class="feedmodule-data">
+									<div class="feedmodule-body grid-view">
+										<div class="clearL">
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=aJ3-qfSKX_E&amp;feature=fvhl" class="video-thumb ux-thumb-128" id="video-thumb-aJ3-qfSKX_E-8606786"><span class="img"><img onload="" thumb="http://i2.ytimg.com/vi/aJ3-qfSKX_E/default.jpg" onclick="ieThumbEvent(event, this); " title="Rice salad" alt="Rice salad" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');"></span>		
+													<span class="video-time">2:07</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-aJ3-qfSKX_E-8606786', null, 'aJ3-qfSKX_E', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-aJ3-qfSKX_E">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=aJ3-qfSKX_E&amp;feature=fvhl" rel="nofollow" title="Rice salad" class="" id="video-short-title-aJ3-qfSKX_E" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">Rice salad</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=aJ3-qfSKX_E&amp;feature=fvhl" rel="nofollow" title="Rice salad" class="" id="video-long-title-aJ3-qfSKX_E" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">Rice salad</a>
+																<div class="video-logos">
+																	<a href="/watch?v=aJ3-qfSKX_E&amp;feature=fvhl&amp;hd=1"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="master-sprite hd-video-logo video-logo"></a>
+																</div>
+															</div>
+														</div>
+														<div id="video-description-aJ3-qfSKX_E" dir="ltr" class="video-description">
+															Packed with flavour, this vegetable studded rice salad is sure to  please at any s...
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-aJ3-qfSKX_E" class="video-date-added">3 days ago</span>
+															<span id="video-num-views-aJ3-qfSKX_E" class="video-view-count">754 views
+															</span>
+															<span class="video-username"><a id="video-from-username-aJ3-qfSKX_E" class="hLink" href="/user/yellowsaffron">yellowsaffron</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=CC1wyTh7ARw&amp;feature=fvhl" class="video-thumb ux-thumb-128" id="video-thumb-CC1wyTh7ARw-7278025"><span class="img"><img onload="" thumb="http://i4.ytimg.com/vi/CC1wyTh7ARw/default.jpg" onclick="ieThumbEvent(event, this); " title="Secondhand Serenade - Something More (Video)" alt="Secondhand Serenade - Something More (Video)" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');"></span>		
+													<span class="video-time">3:30</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-CC1wyTh7ARw-7278025', null, 'CC1wyTh7ARw', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-CC1wyTh7ARw">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=CC1wyTh7ARw&amp;feature=fvhl" rel="nofollow" title="Secondhand Serenade - Something More (Video)" class="" id="video-short-title-CC1wyTh7ARw" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">Secondhand Serenade - Something ...</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=CC1wyTh7ARw&amp;feature=fvhl" rel="nofollow" title="Secondhand Serenade - Something More (Video)" class="" id="video-long-title-CC1wyTh7ARw" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">Secondhand Serenade - Something More (Video)</a>
+																<div class="video-logos">
+																</div>
+															</div>
+														</div>
+														<div id="video-description-CC1wyTh7ARw" dir="ltr" class="video-description">
+															Distributed by WMG
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-CC1wyTh7ARw" class="video-date-added">2 weeks ago</span>
+															<span id="video-num-views-CC1wyTh7ARw" class="video-view-count">15,513 views
+															</span>
+															<span class="video-username"><a id="video-from-username-CC1wyTh7ARw" class="hLink" href="/user/SecondhandSerenadeTV">SecondhandSerenadeTV</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=ZiPLHBF9iQA&amp;feature=fvhl" class="video-thumb ux-thumb-128" id="video-thumb-ZiPLHBF9iQA-4483354"><span class="img"><img onload="" thumb="http://i3.ytimg.com/vi/ZiPLHBF9iQA/default.jpg" onclick="ieThumbEvent(event, this); " title="The Southern Wind" alt="The Southern Wind" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');"></span>		
+													<span class="video-time">9:45</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-ZiPLHBF9iQA-4483354', null, 'ZiPLHBF9iQA', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-ZiPLHBF9iQA">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=ZiPLHBF9iQA&amp;feature=fvhl" rel="nofollow" title="The Southern Wind" class="" id="video-short-title-ZiPLHBF9iQA" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">The Southern Wind</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=ZiPLHBF9iQA&amp;feature=fvhl" rel="nofollow" title="The Southern Wind" class="" id="video-long-title-ZiPLHBF9iQA" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">The Southern Wind</a>
+																<div class="video-logos">
+																</div>
+															</div>
+														</div>
+														<div id="video-description-ZiPLHBF9iQA" class="video-description">
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-ZiPLHBF9iQA" class="video-date-added">1 month ago</span>
+															<span id="video-num-views-ZiPLHBF9iQA" class="video-view-count">77,269 views
+															</span>
+															<span class="video-username"><a id="video-from-username-ZiPLHBF9iQA" class="hLink" href="/user/yachtandsailE">yachtandsailE</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+											<div class="video-cell" style="width:24.5%">
+												<div class="video-entry">
+													<a href="/watch?v=31yebZZbnr4&amp;feature=fvhl" class="video-thumb ux-thumb-128" id="video-thumb-31yebZZbnr4-7721736"><span class="img"><img onload="" thumb="http://i4.ytimg.com/vi/31yebZZbnr4/default.jpg" onclick="ieThumbEvent(event, this); " title="Senator Lugar (R-IN) on Republican Leadership &amp; Mitch Daniels" alt="Senator Lugar (R-IN) on Republican Leadership &amp; Mitch Daniels" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" click="" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');"></span>		
+													<span class="video-time">1:58</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-31yebZZbnr4-7721736', null, '31yebZZbnr4', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													<div class="video-main-content video-title-one-line" id="video-main-content-31yebZZbnr4">
+														<div dir="ltr" class="video-title ">
+															<div class="video-short-title">
+																<a href="/watch?v=31yebZZbnr4&amp;feature=fvhl" rel="nofollow" title="Senator Lugar (R-IN) on Republican Leadership &amp; Mitch Daniels" class="" id="video-short-title-31yebZZbnr4" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">Senator Lugar (R-IN) on Republic...</a>
+															</div>
+															<div class="video-long-title">
+																<a href="/watch?v=31yebZZbnr4&amp;feature=fvhl" rel="nofollow" title="Senator Lugar (R-IN) on Republican Leadership &amp; Mitch Daniels" class="" id="video-long-title-31yebZZbnr4" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/PRO/Logged_Out');">Senator Lugar (R-IN) on Republican Leadership &amp; Mitch Daniels</a>
+																<div class="video-logos">
+																</div>
+															</div>
+														</div>
+														<div id="video-description-31yebZZbnr4" dir="ltr" class="video-description">
+															From C-SPAN Newsmakers interview, Senator Richard Lugar (R-IN) discusses Republica...
+														</div>
+														<div class="video-facets">
+															<span id="video-added-time-31yebZZbnr4" class="video-date-added">1 day ago</span>
+															<span id="video-num-views-31yebZZbnr4" class="video-view-count">262 views
+															</span>
+															<span class="video-username"><a id="video-from-username-31yebZZbnr4" class="hLink" href="/user/CSPAN">CSPAN</a></span>
+														</div>
+													</div>
+													<div class="video-clear-list-left"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div id="feedmodule-TOP" class="feedmodule-anchor">
+							<div class="feedmodule-modheader" id="TOP-titlebar">
+								<div id="feed_top_videos">
+									<div class="fm-title-underlined-gray">
+										<div class="fm2-title">
+											<span class="fm2-titleText" id="feed_top_videos-titleText"><a href="/videos?s=pop" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/View_TopVideos/Logged_Out');">Most Popular</a></span>
+										</div>
+										<div class="feedmodule-updown">
+											<span id="mup-TOP" class="up-button"><img class="master-sprite img-php-up-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mdown-TOP" class="down-button"><img class="master-sprite img-php-down-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span><span id="mclose-TOP"><img class="master-sprite img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear" id="feed_top_videos-content">
+								<div id="TOP-options" class="opt-pane" style="display: none;">
+									<div class="opt-box-top">
+										<img class="homepage-sprite img-php-opt-box-caret" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif">
+									</div>
+									<div class="opt-banner">
+										<div class="opt-links">
+											<div class="opt-edit">Editing: Most Popular</div>
+											<div class="opt-close opt-close-button" onclick="moduleHelper.closeOptionsPane('TOP')"><img class="img-php-close-button" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif"></div>
+											<div class="opt-close opt-close-text" onclick="moduleHelper.closeOptionsPane('TOP')">close</div>
+											<div id="TOP-loading-msg" class="opt-loading-msg" style="display: none;">
+												Saving...
+											</div>
+											<div id="TOP-loading-icn" class="opt-loading-icn" style="display: none;">
+												<img id="TOP-loading-icn-image" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" image="http://s.ytimg.com/yt/img/icn_loading_animated-vfl24663.gif" width="16">
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="opt-main">
+										<div class="opt-simple-msg">
+											Want to customize this homepage?
+											<a href="https://www.google.com/accounts/ServiceLogin?uilel=3&amp;service=youtube&amp;passive=true&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26nomobiletemp%3D1%26hl%3Den_US%26next%3D%252F&amp;hl=en_US&amp;ltmpl=sso" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignIn/EditModuleBox');">Sign In</a> or <a href="https://www.google.com/accounts/LogoutWarning?continue=http%3A%2F%2Fwww.youtube.com%2Fcreate_account%3Fnext%3DNone&amp;ltmpl=sso&amp;hl=en_US&amp;service=youtube" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/LoginSuggest/SignUp/EditModuleBox');">Sign Up</a> now!
+										</div>
+									</div>
+								</div>
+								<div id="TOP-data" class="feedmodule-data">
+									<div class="feedmodule-body compressed-view">
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?c=24" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/24');">Entertainment</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=uffA-h6tagI&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-uffA-h6tagI-1603178"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Beat Whitey Fight Night!" thumb="http://i2.ytimg.com/vi/uffA-h6tagI/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/24');"></span>		
+														<span class="video-time">6:20</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-uffA-h6tagI-1603178', null, 'uffA-h6tagI', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=uffA-h6tagI&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/24');" title="‪Beat Whitey Fight Night!‬‎" dir="ltr">Beat Whitey Fight Night!</a>
+														</div>
+														<div>
+															294,809 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/sxephil">sxephil</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?c=10" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/10');">Music</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=H08EXnT0Pz0&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-H08EXnT0Pz0-4686192"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck" thumb="http://i1.ytimg.com/vi/H08EXnT0Pz0/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/10');"></span>		
+														<span class="video-time">1:17</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-H08EXnT0Pz0-4686192', null, 'H08EXnT0Pz0', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=H08EXnT0Pz0&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/10');" title="‪Bed Intruder Ft. Hayley Williams, Jordan Pundik &amp; Ethan Luck‬‎" dir="ltr">Bed Intruder Ft. Hayley Williams, Jor...</a>
+														</div>
+														<div>
+															204,693 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/ethanluck">ethanluck</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/news" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/25');">News &amp; Politics</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=sGT2fXBlnlc&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-sGT2fXBlnlc-6062681"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Don't Watch This!!" thumb="http://i4.ytimg.com/vi/sGT2fXBlnlc/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/25');"></span>		
+														<span class="video-time">6:08</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-sGT2fXBlnlc-6062681', null, 'sGT2fXBlnlc', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=sGT2fXBlnlc&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/25');" title="‪Don't Watch This!!‬‎" dir="ltr">Don't Watch This!!</a>
+														</div>
+														<div>
+															140,946 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/sxephil">sxephil</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?c=1" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/1');">Film &amp; Animation</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=sQMD3YBLuQI&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-sQMD3YBLuQI-6339452"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Naruto Shippuden 175 English Sub Part 1/2 [HQ]" thumb="http://i4.ytimg.com/vi/sQMD3YBLuQI/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/1');"></span>		
+														<span class="video-time">11:35</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-sQMD3YBLuQI-6339452', null, 'sQMD3YBLuQI', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=sQMD3YBLuQI&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/1');" title="‪Naruto Shippuden 175 English Sub Part 1/2 [HQ]‬‎" dir="ltr">Naruto Shippuden 175 English Sub Part...</a>
+														</div>
+														<div>
+															55,173 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/ZyfijsAnimeCorner">ZyfijsAnimeCorner</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/sports" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/17');">Sports</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=oZ7gyTrAFqM&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-oZ7gyTrAFqM-9345002"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Puchar Polski: Zawisza Bydgoszcz - Widzew Łódź" thumb="http://i4.ytimg.com/vi/oZ7gyTrAFqM/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/17');"></span>		
+														<span class="video-time">8:16</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-oZ7gyTrAFqM-9345002', null, 'oZ7gyTrAFqM', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=oZ7gyTrAFqM&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/17');" title="‪Puchar Polski: Zawisza Bydgoszcz - Widzew Łódź‬‎" dir="ltr">Puchar Polski: Zawisza Bydgoszcz - Wi...</a>
+														</div>
+														<div>
+															109,785 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/portalbydgoski">portalbydgoski</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?c=26" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/26');">Howto &amp; Style</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=FUJ7uQ2qwxk&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-FUJ7uQ2qwxk-2935404"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="School Picture Day Look" thumb="http://i3.ytimg.com/vi/FUJ7uQ2qwxk/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/26');"></span>		
+														<span class="video-time">6:25</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-FUJ7uQ2qwxk-2935404', null, 'FUJ7uQ2qwxk', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=FUJ7uQ2qwxk&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/26');" title="‪School Picture Day Look‬‎" dir="ltr">School Picture Day Look</a>
+														</div>
+														<div>
+															114,306 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/MichellePhan">MichellePhan</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/comedy" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/23');">Comedy</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=jyUxs_Hodn8&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-jyUxs_Hodn8-5123084"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Chef Rage FAIL" thumb="http://i3.ytimg.com/vi/jyUxs_Hodn8/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/23');"></span>		
+														<span class="video-time">0:52</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-jyUxs_Hodn8-5123084', null, 'jyUxs_Hodn8', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=jyUxs_Hodn8&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/23');" title="‪Chef Rage FAIL‬‎" dir="ltr">Chef Rage FAIL</a>
+														</div>
+														<div>
+															458,649 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/failblog">failblog</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?c=2" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/2');">Autos &amp; Vehicles</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=BKWh5f7pRcI&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-BKWh5f7pRcI-6481371"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Tokio Hotel Chickie Run - A spectacular Audi photo shoot" thumb="http://i3.ytimg.com/vi/BKWh5f7pRcI/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/2');"></span>		
+														<span class="video-time">3:34</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-BKWh5f7pRcI-6481371', null, 'BKWh5f7pRcI', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=BKWh5f7pRcI&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/2');" title="‪Tokio Hotel Chickie Run - A spectacular Audi photo shoot‬‎" dir="ltr">Tokio Hotel Chickie Run - A spectacul...</a>
+														</div>
+														<div>
+															63,444 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/Audi">Audi</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?s=mp" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/0%26s%3Dmp');">Most Viewed</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=jyUxs_Hodn8&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-jyUxs_Hodn8-5733154"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Chef Rage FAIL" thumb="http://i3.ytimg.com/vi/jyUxs_Hodn8/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/0%26s%3Dmp');"></span>		
+														<span class="video-time">0:52</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-jyUxs_Hodn8-5733154', null, 'jyUxs_Hodn8', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=jyUxs_Hodn8&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/0%26s%3Dmp');" title="‪Chef Rage FAIL‬‎" dir="ltr">Chef Rage FAIL</a>
+														</div>
+														<div>
+															458,649 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/failblog">failblog</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="feeditem-compressed">
+											<div class="feeditem-compressed-category-title">
+												<div>
+													<a class="hLink" href="/videos?s=mf" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/CategoryTitle/Logged_Out/0%26s%3Dmf');">Top Favorited</a>
+												</div>
+											</div>
+											<div class="TOP-data compressed-form-content">
+												<div class="clear">
+													<div class="feedmodule-thumbnail">
+														<a href="/watch?v=rtIfld84Ydw&amp;feature=topvideos" class="video-thumb ux-thumb-128" id="video-thumb-rtIfld84Ydw-3920636"><span class="img"><img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" title="Dave Days - Olive You feat. Kimmi Smiles" thumb="http://i3.ytimg.com/vi/rtIfld84Ydw/default.jpg" onclick="ieThumbEvent(event, this); " onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/0%26s%3Dmf');"></span>		
+														<span class="video-time">4:26</span><span class="video-actions"><button type="button" class=" yt-uix-button yt-uix-button-short" onclick="yt.www.watch.quicklist.clickedAddIcon_w5('video-thumb-rtIfld84Ydw-3920636', null, 'rtIfld84Ydw', '', '');return false;"><span class="yt-uix-button-content"><strong>+</strong></span></button></span><span class="video-in-quicklist">Added to <br> queue</span></a>
+													</div>
+													<div class="feedmodule-singleform-info">
+														<div class="video-title">
+															<a href="/watch?v=rtIfld84Ydw&amp;feature=topvideos" onmousedown="yt.analytics.urchinTracker('/Events/Home/PersonalizedHome/TOP/Logged_Out/0%26s%3Dmf');" title="‪Dave Days - Olive You feat. Kimmi Smiles‬‎" dir="ltr">Dave Days - Olive You feat. Kimmi Smiles</a>
+														</div>
+														<div>
+															157,151 views
+														</div>
+														<div>
+															<nobr>
+																<a href="/user/davedays">davedays</a>
+															</nobr>
+														</div>
+													</div>
+													<div class="spacer">&nbsp;</div>
+												</div>
+											</div>
+											<div class="spacer">&nbsp;</div>
+										</div>
+										<div class="spacer">&nbsp;</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="main-spacer-bottom"></div>
+				</div>
+				<!-- end homepage-main-content -->
+				<div id="homepage-side-content">
+					<div id="iyt-login-suggest-side-box" class="homepage-side-block">
+						<div id="iyt-login-suggest-side-box" class="yt-alert yt-alert-announce yt-rounded">
+							<img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="icon master-sprite" alt="Alert icon">
+							<div class="yt-alert-content">
+								<strong>Want to customize this homepage?
+								</strong><br>
+								<a href="https://www.google.com/accounts/ServiceLogin?uilel=3&amp;service=youtube&amp;passive=true&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26nomobiletemp%3D1%26hl%3Den_US%26next%3D%252F&amp;hl=en_US&amp;ltmpl=sso">Sign In</a> or <a href="https://www.google.com/accounts/LogoutWarning?continue=http%3A%2F%2Fwww.youtube.com%2Fcreate_account%3Fnext%3D&amp;ltmpl=sso&amp;hl=en_US&amp;service=youtube">Sign Up</a> now!
+							</div>
+						</div>
+					</div>
+                    <!--
+					<div class="homepage-side-block hid" id="homepage-chrome-side-promo">
+						<div id="side-announcement-box">
+							<div class="yt-alert yt-alert-info yt-rounded">
+								<div id="chrome-promo-hp" class="yt-alert-content">
+									<div id="chrome-promo-hp">
+										<a href="http://www.google.com/chrome/index.html?brand=CHFH&amp;utm_source=en-et-yt-ftr-lx&amp;utm_medium=et&amp;utm_campaign=en&amp;hl=en-US" id="chrome-link-hp" style="padding: 0;">
+											<button class="master-sprite chrome-icon"></button>
+											<div class="textblock">
+												<div class="tagline">Try YouTube in a new web browser</div>
+												<div class="link">Download Google Chrome</div>
+											</div>
+											<div class="clear"></div>
+										</a>
+									</div>
+								</div>
+								<button type="button" onclick="_hidediv(this.parentNode);dismissChromePromoAlert();" class="close master-sprite">
+								close
+								</button>
+							</div>
+						</div>
+					</div>
+                    -->
+					<div id="ad_creative_3" class="ad-div " style="z-index: 1">
+						<iframe id="ad_creative_iframe_3" scrolling="no" style="z-index: 1" width="300" height="100" frameborder="0"></iframe>
+						<script type="text/javascript">
+							var add_timestamp = (Math.floor(Math.random() * 1000) == 0);
+							if (add_timestamp) {
+								var kts = new Date().getTime();
+								var iframe_src = "http://ad-g.doubleclick.net/adi/tst.ythome/promo1;sz=300x100;klg=en;kt=K;kga=-1;kgg=-1;kcr=us;dc_dedup=1;kmyd=ad_creative_3;tile=3;kts=" + kts + ";ord=521964503061965?";
+							} else {
+								var iframe_src = "http://ad-g.doubleclick.net/adi/tst.ythome/promo1;sz=300x100;klg=en;kt=K;kga=-1;kgg=-1;kcr=us;dc_dedup=1;kmyd=ad_creative_3;tile=3;ord=521964503061965?";
+							}
+							ad_iframe = _gel("ad_creative_iframe_3");
+							ad_iframe.src = iframe_src;
+						</script>
+					</div>
+					<div class="clear"></div>
+					<div class="homepage-side-block">
+						<div id="homepage-whats-new">
+							<h2>What's New</h2>
+							<h3><a href="http://www.youtube.com/charts/videos_views">Off the Charts!</a></h3>
+							<div class="entry">Official YouTube charts tell you who's on top</div>
+							<h3><a href="http://youtube-global.blogspot.com/2010/07/upload-limit-increases-to-15-minutes.html">Long videos welcome!</a></h3>
+							<div class="entry">Upload limit increases to 15 minutes</div>
+							<h3>
+								<a href="http://youtube-global.blogspot.com/">Conflictivism</a>
+							</h3>
+							<div class="entry">
+								<i>For our second <a href="http://youtube-global.blogspot.com/2010/08/transmission-of-art-by-television-and.html">cross-post</a> from the Guggenheim’s <a href="http://www.guggenheim.org/new-york/interact/participate/youtube-play/the-take">The Take</a> blog, inspired by <a href="http://www.youtube.com/play">YouTube Play. A Biennial of Creative Video</a>, Jaime Davidovich pontificates on YouTube as “public access gone ballistic” and...</i>
+							</div>
+							<p class="alignR">
+								<a href="http://youtube-global.blogspot.com/">Read more in our Blog</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<!-- end homepage-side-content -->
+				<div class="clear"></div>
+				<div id="footer-container">{% include 'footer.twig' %}</div>
+			</div>
+			<div id="quicklist" class="hid passive" data-passive-ajax-url="/list_ajax?action_get_quicklist=1&amp;style=bottomfeedr" data-autohide-mode="on" data-active-ajax-url="">
+				<div id="quicklist-bar-container">
+					<div id="quicklist-bar">
+						<span id="quicklist-info">
+							<span class="yt-uix-button-group quicklist-active"><button type="button" class="master-sprite yt-uix-tooltip start start-edge yt-uix-button yt-uix-button-media yt-uix-tooltip" onclick=";return false;" title="Previous video" data-button-action="yt.www.watch.quicklist.prev"><img class="yt-uix-button-icon-quicklist-prev" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt=""> </button><button type="button" class="master-sprite yt-uix-tooltip end yt-uix-button yt-uix-button-media" onclick=";return false;" id="quicklist-next-button" data-button-action="yt.www.watch.quicklist.next"><img class="yt-uix-button-icon-quicklist-next" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt=""> </button></span><span class="yt-uix-button-group quicklist-passive"><button type="button" class="master-sprite yt-uix-tooltip start start-edge end yt-uix-button yt-uix-button-media yt-uix-tooltip" onclick=";return false;" title="Play videos" data-button-action="yt.www.watch.quicklist.play"><img class="yt-uix-button-icon-quicklist-play" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt=""> </button></span>
+							<button type="button" id="quicklist-title-button" onclick=";return false;" class="reverse yt-uix-button yt-uix-button-media yt-uix-button-text">
+								<span class="yt-uix-button-content">	<span class="quicklist-passive">Queue</span>
+								</span> <img class="yt-uix-button-arrow" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt="">
+								<div style="display:none;" class="yt-uix-button-menu yt-uix-button-menu-media yt-uix-button-menu-text">
+									<ul>
+										<li><span class="yt-uix-button-menu-item" onclick="yt.www.watch.quicklist.save()">
+											Save your Queue as a new playlist
+											</span>
+										</li>
+										<li><span class="yt-uix-button-menu-item" onclick="yt.www.watch.quicklist.clear()">
+											Clear all videos from your Queue
+											</span>
+										</li>
+										<li><span class="yt-uix-button-menu-item" onclick="yt.www.watch.quicklist.showPassive()">
+											Show your Queue
+											</span>
+										</li>
+									</ul>
+								</div>
+							</button>
+							<input id="quicklist-title-edit" type="text" value="">
+							<span id="quicklist-title-saved"></span>
+						</span>
+						<span id="quicklist-controls">
+						<span class="yt-uix-button-group"><button type="button" class="master-sprite yt-uix-tooltip start quicklist-active yt-uix-button yt-uix-button-media yt-uix-button-text" onclick=";return false;" data-button-action="yt.www.watch.quicklist.autoplay"><img class="yt-uix-button-icon-quicklist-autoplay" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt=""> <span class="yt-uix-button-content">		<span class="quicklist-autoplay-off">Autoplay Off</span>
+						<span class="quicklist-autoplay-on">Autoplay On</span>
+						</span></button><button type="button" class="master-sprite yt-uix-tooltip quicklist-active yt-uix-button yt-uix-button-media" onclick=";return false;" id="quicklist-shuffle-button" data-button-action="yt.www.watch.quicklist.shuffle"><img class="yt-uix-button-icon-quicklist-shuffle" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt=""> </button><button type="button" class="master-sprite yt-uix-tooltip end end-edge yt-uix-button yt-uix-button-media" onclick=";return false;" id="quicklist-toggle-button" data-button-action="yt.www.watch.quicklist.toggle"><img class="yt-uix-button-icon-quicklist-toggle" src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt=""> </button></span>				</span>
+					</div>
+				</div>
+				<div id="quicklist-tray-container">
+					<div id="quicklist-tray">
+						<div id="quicklist-tray-passive" class="quicklist-passive"></div>
+					</div>
+					<div id="quicklist-save"></div>
+					<div id="quicklist-saved"></div>
+					<div id="quicklist-loading">
+						<img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt="">
+						<span>Loading...</span>
+					</div>
+					<div id="quicklist-saving">
+						<img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" alt="">
+						<span>Saving...</span>
+					</div>
+				</div>
+			</div>
+			<div style="display:none">
+				<div id="error-small-template" class="yt-alert yt-alert-error yt-alert-small yt-rounded">
+					<img src="http://s.ytimg.com/yt/img/pixel-vfl73.gif" class="icon master-sprite" alt="Alert icon">
+					<div class="yt-alert-content">
+					</div>
+					<button type="button" onclick="_hidediv(this.parentNode);" class="close master-sprite">
+					close
+					</button>
+				</div>
+			</div>
+			<div> 
+			</div>
+			<script>
+				yt.setConfig('TIMING_ACTION', 'index');
+			</script>
+			<script>
+				yt.setMsg({
+					'QUEUE_CLEAR': 'Are you sure you wish to continue?',
+					'ERROR_OCCURRED': 'Sorry, an error occurred.',
+					'NEXT_VIDEO_TOOLTIP': 'Next video: &#8220;${next_video_title}&#8221;',
+					'SHOW_PLAYLIST_TOOLTIP': 'Show playlist',
+					'HIDE_PLAYLIST_TOOLTIP': 'Hide playlist',
+					'SHUFFLE_ON_TOOLTIP': 'Turn shuffle off',
+					'SHUFFLE_OFF_TOOLTIP': 'Turn shuffle on' //no trailing comma
+				});
+				
+					yt.pubsub.subscribe('init', yt.www.watch.quicklist.init);
+				
+				
+				
+				
+				yt.www.thumbnailDelayLoad.setFudgeFactor(0);
+				
+				if (document.documentElement["getBoundingClientRect"]) {
+				yt.events.listen(window, 'scroll', yt.www.thumbnailDelayLoad.loadImages);
+				yt.events.listen(window, 'resize', yt.www.thumbnailDelayLoad.loadImages);
+				}
+				yt.www.thumbnailDelayLoad.loadImages();
+				
+				yt.www.thumbnailDelayLoad.setLoadAllAtOnce(true);
+				
+				
+				
+				yt.events.listen(_gel('masthead-search-term'), 'focus', yt.www.home.ads.workaroundReset);
+				
+				yt.setTimeout(function() {
+					window.yt.www.suggest.install(document.searchForm,
+							document.searchForm.search_query,
+							'en','close',
+							'',
+							'Web search',
+							-1,
+							null);
+						}, 100);
+				
+				
+			</script>
+			<script id="legacy-user-datastore" style="behavior:url('#default#userdata')"></script>
+			<!-- end postpage section -->
+			<!--[if IE]>
+		</div>
+		<![endif]-->
+	</body>
+</html>

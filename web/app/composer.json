@@ -1,0 +1,6 @@
+{
+    "require": {
+        "twig/twig": "^3.3",
+        "bramus/router": "^1.6"
+    }
+}

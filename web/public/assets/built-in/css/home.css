@@ -1,0 +1,187 @@
+html {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: #0C110B;
+    font-size: 12px;
+    font-family: Tahoma, Verdana;
+    color: #e4e4e4;
+}
+
+.site {
+    background-image: url(/assets/built-in/img/main_bg.png);
+    width: 1165px;
+    margin: auto;
+    height: 100vh;
+    padding-top: 30px;
+}
+
+.site-container {
+    width: 900px;
+    margin: auto;
+}
+
+.mod-light {
+    border-top: 4px solid #374937;
+    border-right: 4px solid #374937;
+    border-left: 4px solid #0C110B;
+    border-bottom: 4px solid #0C110B;
+    background-color: #1C291C;
+    padding: 15px;
+    
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.footer {
+    color: #7B7E7B;
+    width: 100%;
+    overflow: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+ul li {
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+ul li:hover,
+ul li.active  {
+    border-right: 2px solid #303E2E;
+    background-color: #1C291C;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.text-form {
+    font-size: 10px;
+    display: inline-block;
+}
+
+.text form {
+    margin-left: 30px;
+}
+
+.text-form b {
+    font-size: 12px;
+}
+
+ul li:hover {
+    background-color: #1C291C5E;
+}
+
+.generic-input {
+    margin-bottom: 3px;
+    border-radius: 3px;
+    padding: 3px;
+    border: 1px solid #1C291C;
+    background-color: #303E2E;
+    width: 200px;
+    color: white;
+}
+
+.top-right {
+    float: right;
+    width: calc( 83% - 20px );
+    position: relative;
+    bottom: 35px;
+}
+
+.top-left {
+    float: left;
+    width: calc( 20% - 20px );
+    position: relative;
+    bottom: 35px;
+}
+
+.mod-dark {
+    border-top: 3px solid #253324;
+    border-right: 3px solid #242C22;
+    border-left: 3px solid #050706;
+    border-bottom: 3px solid #050706;
+    background-color: #0C120B;
+    padding: 15px;
+}
+
+#user-bar {
+    background-image: url(/assets/built-in/img/grad.png);
+    background-size: cover;
+    padding: 6px;
+    float: right;
+    width: 755px;
+    position: relative;
+    bottom: 50px;
+    text-align: right;
+    padding-right: 40px;
+    color: white;
+}
+
+.extra-text {
+    color: #789375;
+}
+
+.extra-text b {
+    color: #589753;
+    font-size: 13px;
+}
+
+#normal-bar {
+    background-image: url(/assets/built-in/img/grad_inv.png);
+    background-size: cover;
+    padding: 6px;
+    padding-right: 40px;
+    padding-left: 30px;
+    color: white;
+}
+
+.text {
+    vertical-align: top;
+    margin-top: 13px;
+    display: inline-block;
+    width: 290px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    padding: 0px;
+    margin: 0px;
+    display: inline-block;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+#logo {
+    width: 221px;
+    height: 143px;
+    image-rendering: pixelated;
+}
+
+button {
+    background-image: url(/assets/built-in/img/button.png);
+    border: none;
+    color: white;
+    background-color: transparent;
+    -moz-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    padding: 3px 10px;
+    font-size: 11px;
+    height: 27px;
+}
