@@ -18,7 +18,7 @@ services:
             - php
             - mysqldb
     php:
-        image: bitnami/php-fpm:latest
+        image: bitnami/php-fpm:8.1-prod
         restart: always
         volumes:
             - "./etc/php/php.ini:/opt/bitnami/php/lib/php.ini"

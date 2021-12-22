@@ -8,11 +8,20 @@ class Fetcher {
         $this->__db = $conn;
 	}
 
-    function fetch_video_views(string $id) {
-        $stmt = $this->__db->prepare("SELECT * FROM views WHERE videoid = :id");
-        $stmt->bindParam(":id", $id);
+    function fetch_table_singlerow($username, $table_name, $column_name) {
+        $stmt = $this->__db->prepare("SELECT * FROM " . $table_name . " WHERE " . $column_name . " = :username");
+        $stmt->bindParam(":username", $username);
         $stmt->execute();
 
-        return $stmt->rowCount();
+        return ($stmt->rowCount() === 0 ? 0 : $stmt->fetch(\PDO::FETCH_ASSOC));
+    }
+
+    function fetch_file($username, $file_name) {
+        $stmt = $this->__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND file_name = :filename");
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":filename", $file_name);
+        $stmt->execute();
+
+        return ($stmt->rowCount() === 0 ? 0 : $stmt->fetch(\PDO::FETCH_ASSOC));
     }
 }

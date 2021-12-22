@@ -7,7 +7,9 @@
             <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
             <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
             <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
+            <script src="/assets/built-in/js/codemirror.js"></script>
             <link href="/assets/built-in/css/home.css" rel="stylesheet">
+            <link href="/assets/built-in/css/codemirror.css" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
@@ -21,26 +23,25 @@
                 <div class="top-right">
                     <div class="mod-light">
                         <div id="normal-bar">
-                            <h2>What is Pebbles?</h2>
+                            <h2>Editing {{ file.file_name|escape }}</h2>
                         </div>
-                        <img src="/assets/built-in/img/pebbles2.png" style="width: 281px;">
                         <span class="text">
-                            Lorem ipsum Dolor Sit Amet Amet minim mollit non deserunt
-                            ullamco est sit aliqua dolor do amet sint. Velit officia
-                            consequat duis enim velit mollit. Exercitation veniam
-                            consequat sunt nostrud amet.<br><br>
-                            Lorem ipsum Dolor Sit Amet Amet minim mollit non deserunt
-                            ullamco est sit aliqua dolor do amet sint. Velit officia
-                            consequat duis enim velit mollit. Exercitation veniam
-                            consequat sunt nostrud amet.<br><br>
+                            <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
+                                <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea>
+                                <input type="submit" value="Update File">
+                            </form>
+                        </span> 
 
-                            <span class="extra-text">
-                                In short, You can publish your VERY OWN
-                                webpage and share it with your friends and
-                                family - all for
-                                <b style="color: dark-green;">FREE</b>
-                            </span>
-                        </span>
+                        <script>
+                            var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
+                                lineNumbers: true,
+                                mode: "text/html",
+                                theme: "base16-dark",
+                                matchBrackets: true
+                            });
+
+                            editor.setSize(500, 300);
+                        </script>
                     </div>
                 </div>
             </div>

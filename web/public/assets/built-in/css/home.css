@@ -51,6 +51,11 @@ ul {
     vertical-align: middle;
 }
 
+.fullwidth {
+    width: 100%;
+    overflow: auto;
+}
+
 ul li {
     padding: 10px;
     margin-bottom: 5px;
@@ -81,14 +86,25 @@ ul li:hover {
     background-color: #1C291C5E;
 }
 
+hr {
+    border-top: 3px solid #151E15;
+    border-bottom: 0px solid black;
+}
+
 .generic-input {
     margin-bottom: 3px;
     border-radius: 3px;
     padding: 3px;
     border: 1px solid #1C291C;
     background-color: #303E2E;
-    width: 200px;
+    width: 244px;
     color: white;
+}
+
+textarea.generic-input {
+    resize: none;
+    width: 400px;
+    height: 400px;
 }
 
 .top-right {
@@ -103,6 +119,35 @@ ul li:hover {
     width: calc( 20% - 20px );
     position: relative;
     bottom: 35px;
+}
+
+#error {
+    overflow: auto;
+    width: 99%;
+    position: relative;
+    bottom: 44px;
+    padding: 5px;
+    background: rgb(147,26,49);
+    background: linear-gradient(0deg, rgba(147,26,49,1) 0%, rgba(162,62,62,1) 100%);
+}
+
+.site-info {
+    display: inline-block;
+    float: right;
+}
+
+.right-align {
+    float: right;
+}
+
+.top-half-right {
+    float: right;
+    width: calc( 50% - 20px );
+}
+
+.top-half-left {
+    float: left;
+    width: calc( 55% - 20px );
 }
 
 .mod-dark {
@@ -167,13 +212,17 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
 #logo {
     width: 221px;
     height: 143px;
     image-rendering: pixelated;
 }
 
-button {
+button, input[type="submit"] {
     background-image: url(/assets/built-in/img/button.png);
     border: none;
     color: white;

@@ -1,14 +1,29 @@
-<img src="/assets/built-in/img/white_logo.png" id="logo">
+<a href="/"><img src="/assets/built-in/img/white_logo.png" id="logo"></a>
 <div id="user-bar">
-    <a href="/sign_in">
-        <button class="sign_in_button">
-            Log in
-        </button>
-    </a>
-    &nbsp;&nbsp;...or&nbsp;&nbsp;
-    <a href="/sign_up">
-        <button class="sign_in_button">
-            Sign Up
-        </button>
-    </a>
+    {% if session.siteusername is defined %}
+        <a href="/site/{{ session.domainname|escape }}/index.html">{{ session.siteusername|escape }}</a> 
+        &bull; 
+        <a href="/edit_site">Edit Site</a> 
+        &bull; 
+        <a href="/new_file">New File</a>
+        &bull;
+        <a href="/request/log_out">Sign Out</a>
+    {% else %}
+        <a href="/sign_in">
+            <button class="sign_in_button">
+                Log in
+            </button>
+        </a>
+        &nbsp;&nbsp;...or&nbsp;&nbsp;
+        <a href="/sign_up">
+            <button class="sign_in_button">
+                Sign Up
+            </button>
+        </a>
+    {% endif %}
 </div>
+{% if session.error is defined %}
+    <div class="alert" id="error">
+        {{ session.error.message|escape }}
+    </div>
+{% endif %}

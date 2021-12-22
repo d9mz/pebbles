@@ -17,6 +17,7 @@ class Inserter {
         $columns_pre = implode(", ", $columns_pre);
 
         $stmt = $this->__db->prepare("INSERT INTO " . $table_name . " (" . $columns . ") VALUES (" . $columns_pre . ")");
+        echo "INSERT INTO " . $table_name . " (" . $columns . ") VALUES (" . $columns_pre . ")<br>";
 
         /*
             $stmt = $this->__db->prepare("INSERT INTO " . $table_name . " (" . $columns . ") VALUES (" . ")" );
@@ -26,7 +27,6 @@ class Inserter {
         foreach (array_combine($_values, $_columns) as $value => $column) {
             $column = ":" . $column;
             $stmt->bindParam($column, $value);
-            echo $column . " " . $value . "<br>";
             echo "\$stmt->bindParam('" . $column . "'" . ", '" . $value . "');<br>";
         }
 
@@ -35,5 +35,13 @@ class Inserter {
         } else {
             return false;
         }
+    }
+
+    function new_file($file_name, $file_contents, $belongs_to) {
+        $stmt = $this->__db->prepare("INSERT INTO files (file_name, contents, belongs_to) VALUES (:file_name, :contents, :belongs_to)");
+        $stmt->bindParam(":file_name", $file_name);
+        $stmt->bindParam(":contents", $file_contents);
+        $stmt->bindParam(":belongs_to", $belongs_to);
+        $stmt->execute();
     }
 }

@@ -21,26 +21,19 @@
                 <div class="top-right">
                     <div class="mod-light">
                         <div id="normal-bar">
-                            <h2>What is Pebbles?</h2>
+                            <h2>Create a File</h2>
                         </div>
-                        <img src="/assets/built-in/img/pebbles2.png" style="width: 281px;">
                         <span class="text">
-                            Lorem ipsum Dolor Sit Amet Amet minim mollit non deserunt
-                            ullamco est sit aliqua dolor do amet sint. Velit officia
-                            consequat duis enim velit mollit. Exercitation veniam
-                            consequat sunt nostrud amet.<br><br>
-                            Lorem ipsum Dolor Sit Amet Amet minim mollit non deserunt
-                            ullamco est sit aliqua dolor do amet sint. Velit officia
-                            consequat duis enim velit mollit. Exercitation veniam
-                            consequat sunt nostrud amet.<br><br>
-
-                            <span class="extra-text">
-                                In short, You can publish your VERY OWN
-                                webpage and share it with your friends and
-                                family - all for
-                                <b style="color: dark-green;">FREE</b>
-                            </span>
-                        </span>
+                            <form action="/request/make_file" method="POST">
+                                <span class="text-form">
+                                    <b>File Name</b><br>
+                                    Must end with a file extension.<br>
+                                    <span style="color:red">* this input is required</span>
+                                </span>
+                                <input type="text" name="file_name" placeholder="File Name" class="generic-input"><br><br>
+                                <input type="submit" value="Make File">
+                            </form>
+                        </span> 
                     </div>
                 </div>
             </div>

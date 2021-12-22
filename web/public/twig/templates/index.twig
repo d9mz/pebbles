@@ -16,39 +16,71 @@
                 {% include 'header.twig' %}
 
                 <div class="top-left">
-                    <div class="mod-dark">
-                        <ul>
-                            <li class="active"><a href="/" class="button-list">Home</a></li>
-                            <li><a href="/potd" class="button-list">Page of the Day</a></li>
-                            <li><a href="/lookup" class="button-list">User Lookup</a></li>
-                            <li><a href="/tos" class="button-list">Terms of Service</a></li>
-                            <li><a href="/" class="button-list">Discord Server</a></li>
-                        </ul>
-                    </div>
+                    {% include 'sidebar.twig' %}
                 </div>
                 <div class="top-right">
-                    <div class="mod-light">
-                        <div id="normal-bar">
-                            <h2>What is Pebbles?</h2>
+                    <div class="mod-light" style="height: 700px;">
+                        <img src="/assets/built-in/img/Group_12.png" style="width: 100%;">
+                        <hr>
+                        <div class="top-half-left">
+                            <div id="normal-bar">
+                                <h2>Recently Updated</h2>
+                            </div><br>
+                            <div class="mod-light" style="height: 273px;overflow-y: scroll;">
+                                {% for site in sites %}
+                                    {% if site.id is defined %}
+                                        <div class="site-item">
+                                            <h2><a href="/site/{{ site.domain|escape }}/index.html">{{ site.domain|escape }}</a></h2>
+                                            <span class="site-info">
+                                            by {{ site.username|escape }}<br>
+                                            ...last updated at <i>{{ site.last_login|date("h:iA") }}</i>
+                                            </span>
+                                        </div><br>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
-                        <img src="/assets/built-in/img/pebbles2.png" style="width: 281px;">
-                        <span class="text">
-                            Lorem ipsum Dolor Sit Amet Amet minim mollit non deserunt
-                            ullamco est sit aliqua dolor do amet sint. Velit officia
-                            consequat duis enim velit mollit. Exercitation veniam
-                            consequat sunt nostrud amet.<br><br>
-                            Lorem ipsum Dolor Sit Amet Amet minim mollit non deserunt
-                            ullamco est sit aliqua dolor do amet sint. Velit officia
-                            consequat duis enim velit mollit. Exercitation veniam
-                            consequat sunt nostrud amet.<br><br>
-
-                            <span class="extra-text">
-                                In short, You can publish your VERY OWN
-                                webpage and share it with your friends and
-                                family - all for
-                                <b style="color: dark-green;">FREE</b>
-                            </span>
-                        </span>
+                        <div class="top-half-right">
+                            <div id="normal-bar">
+                                <h2>Sign In</h2>
+                            </div><br>
+                            <div class="mod-light" style="width: 259px;float: right;">
+                                <center>
+                                    <img src="/assets/built-in/img/white_logo.png" style="width: 110px;"><br>
+                                    Sign in with your Pebbles account
+                                </center>
+                                <span class="text">
+                                    <form action="/request/sign_in" method="POST" style="margin-left: 12px;">
+                                        <span class="text-form">
+                                            <b>Username</b><br>
+                                            This is NOT case sensitive. <br>
+                                            <span style="color:red">* this input is required</span>
+                                        </span>
+                                        <input type="text" name="pebble_username" placeholder="Username" class="generic-input"><br>
+                                        <span class="text-form">
+                                            <b>Password</b><br>
+                                            <span style="color:red">* this input is required</span>
+                                        </span>
+                                        <input type="password" name="pebble_password" placeholder="Password" class="generic-input"><br><br>
+                                        <a href="/sign_up" style="color: #687568;">Not a member yet?</a>
+                                        <input type="submit" value="Sign In" class="right-align" style="margin-right: 25px;">
+                                    </form>
+                                </span> 
+                            </div>
+                        </div>
+                        <div class="fullwidth">
+                            <br>
+                            <div id="normal-bar">
+                                <h2>Users online right now</h2>
+                            </div><br>
+                            <div class="mod-light" style="float: right;width: 622px;height: 65px;overflow-y: scroll;">
+                                {% for site in sites %}
+                                    {% if site.id is defined %}
+                                        <a style="color: {{ site.color }};width: 23%;display: inline-block;text-align: center;" href="/site/{{ site.domain|escape }}/index.html">{{ site.username|escape }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
