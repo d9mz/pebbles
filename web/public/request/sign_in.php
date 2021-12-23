@@ -27,10 +27,7 @@ $request = (object) [
 
 if(empty($request->username))
     $request->error->message = "Your username cannot be empty.";
-
-if(!preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $request->username))
-    $request->error->message = "Your username is too long/short or it contains special characters.";
-
+    
 $stmt = $__db->prepare("SELECT password FROM users WHERE username = :username");
 $stmt->bindParam(":username", $request->username);
 $stmt->execute();

@@ -15,7 +15,9 @@
                                 <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
                             </span><br>
                         {% else %}
-                            <br>
+                            <span style="float: right">
+                                <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                            </span><br>
                         {% endif %}
                     {% endif %}
                 {% endfor %}

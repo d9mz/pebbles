@@ -142,6 +142,8 @@ $router->get('/site/(\w+)/(.*)', function($username, $file_name) use ($twig, $__
        
     if($file['ext'] == "css") {
         $file['mime_type'] = "text/css";
+    } else if($file['ext'] == "js") {
+        $file['mime_type'] = "text/javascript";
     } else if($file['ext'] == "gif") {
         $file['mime_type'] = "image/gif";
         $file['contents']  = file_get_contents("assets/img/" . $file['file_name']);
