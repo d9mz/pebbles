@@ -1,43 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% block head %}
-            <title>{{ metadata.og_context.title|escape }}</title>
-            <meta property="og:title" content="{{ metadata.og_context.title|escape }}" />
-            <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
-            <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
-            <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
-            <link href="/assets/built-in/css/home.css" rel="stylesheet">
-        {% endblock %}
-    </head>
-    <body>
-        <div class="site">
-            <div class="site-container">
-                {% include 'header.twig' %}
+{% extends "base.twig" %}
 
-                <div class="top-left">
-                    {% include 'sidebar.twig' %}
-                </div>
-                <div class="top-right">
-                    <div class="mod-light">
-                        <div id="normal-bar">
-                            <h2>Create a File</h2>
-                        </div>
-                        <span class="text">
-                            <form action="/request/make_file" method="POST">
-                                <span class="text-form">
-                                    <b>File Name</b><br>
-                                    Must end with a file extension.<br>
-                                    <span style="color:red">* this input is required</span>
-                                </span>
-                                <input type="text" name="file_name" placeholder="File Name" class="generic-input"><br><br>
-                                <input type="submit" value="Make File">
-                            </form>
-                        </span> 
-                    </div>
-                </div>
-            </div>
-            {% include 'footer.twig' %}
+{%- block top_right -%}
+    <div class="mod-light">
+        <div id="normal-bar">
+            <h2>Create a File</h2>
         </div>
-    </body>
-</html>
+        <span class="text">
+            <form action="/request/make_file" method="POST">
+                <span class="text-form">
+                    <b>File Name</b><br>
+                    Must end with a file extension.<br>
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="text" name="file_name" placeholder="File Name" class="generic-input"><br><br>
+                <input type="submit" value="Make File">
+            </form>
+        </span> 
+    </div>
+{% endblock %}

@@ -1,50 +1,28 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% block head %}
-            <title>{{ metadata.og_context.title|escape }}</title>
-            <meta property="og:title" content="{{ metadata.og_context.title|escape }}" />
-            <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
-            <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
-            <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
-            <link href="/assets/built-in/css/home.css" rel="stylesheet">
-        {% endblock %}
-    </head>
-    <body>
-        <div class="site">
-            <div class="site-container">
-                {% include 'header.twig' %}
+{% extends "base.twig" %}
 
-                <div class="top-left">
-                    {% include 'sidebar.twig' %}
-                </div>
-                <div class="top-right">
-                    <div class="mod-light">
-                        <div id="normal-bar">
-                            <h2>Your Site's Files</h2>
-                        </div>
-                        <span class="text" style="margin-left: 32px;width: 95%;">
-                            {% for file in files_row %}
-                                {% if file.id is defined %}
-                                    <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
-                                    {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
-                                        <span style="float: right">
-                                            <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Delete</button></a>
-                                            <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
-                                        </span><br>
-                                    {% else %}
-                                        <br>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if files_row.rows == 0 %}
-                                You have no files. Do you want to <a href="/new_file">make one?</a>
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
+{%- block top_right -%}
+    <div class="mod-light">
+            <div id="normal-bar">
+                <h2>Your Site's Files</h2>
             </div>
-            {% include 'footer.twig' %}
+            <span class="text" style="margin-left: 32px;width: 95%;">
+                {% for file in files_row %}
+                    {% if file.id is defined %}
+                        <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                        {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
+                            <span style="float: right">
+                                <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Delete</button></a>
+                                <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
+                            </span><br>
+                        {% else %}
+                            <br>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if files_row.rows == 0 %}
+                    You have no files. Do you want to <a href="/new_file">make one?</a>
+                {% endif %}
+            </span>
         </div>
-    </body>
-</html>
+    </div>
+{% endblock %}

@@ -1,59 +1,35 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% block head %}
-            <title>{{ metadata.og_context.title|escape }}</title>
-            <meta property="og:title" content="{{ metadata.og_context.title|escape }}" />
-            <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
-            <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
-            <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.css" />
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/htmlmixed/htmlmixed.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/javascript/javascript.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/css/css.js"></script>
-            <link href="/assets/built-in/css/home.css" rel="stylesheet">
-            <link href="/assets/built-in/css/shadowfox.css" rel="stylesheet">
-        {% endblock %}
-    </head>
-    <body>
-        <div class="site">
-            <div class="site-container">
-                {% include 'header.twig' %}
+{% extends "base.twig" %}
 
-                <div class="top-left">
-                    {% include 'sidebar.twig' %}
-                </div>
-                <div class="top-right">
-                    <div class="mod-light">
-                        <div id="normal-bar">
-                            <h2>Editing {{ file.file_name|escape }}</h2>
-                        </div>
-                        <span class="text">
-                            <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
-                                <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
-                                <input type="submit" value="Update File">
-                            </form>
-                        </span> 
+{%- block head -%}
+    {{ parent() }}
+    <script src="/assets/built-in/js/codemirror.js"></script>
+    <link href="/assets/built-in/css/codemirror.css" rel="stylesheet">
+{% endblock %}
 
-                        <script>
-                            var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
-                                lineNumbers: true,
-                                mode: {
-                                    name: "htmlmixed"
-                                }, 
-                                htmlMode: true,
-                                theme: "shadowfox",
-                                matchBrackets: true
-                            });
 
-                            editor.setSize(650, 500);
-                        </script>
-                    </div>
-                </div>
-            </div>
-            {% include 'footer.twig' %}
-        </div>
-    </body>
-</html>
+{%- block top_right -%}
+  <div class="mod-light">
+      <div id="normal-bar">
+          <h2>Editing {{ file.file_name|escape }}</h2>
+      </div>
+      <span class="text">
+          <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
+              <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
+              <input type="submit" value="Update File">
+          </form>
+      </span> 
+
+      <script>
+          var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
+              lineNumbers: true,
+              mode: {
+                  name: "htmlmixed"
+              }, 
+              htmlMode: true,
+              theme: "shadowfox",
+              matchBrackets: true
+          });
+          editor.setSize(650, 500);
+      </script>
+  </div>
+{% endblock %}

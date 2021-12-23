@@ -1,56 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% block head %}
-            <title>{{ metadata.og_context.title|escape }}</title>
-            <meta property="og:title" content="{{ metadata.og_context.title|escape }}" />
-            <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
-            <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
-            <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
-            <link href="/assets/built-in/css/home.css" rel="stylesheet">
-        {% endblock %}
-    </head>
-    <body>
-        <div class="site">
-            <div class="site-container">
-                {% include 'header.twig' %}
+{% extends "base.twig" %}
 
-                <div class="top-left">
-                    {% include 'sidebar.twig' %}
-                </div>
-                <div class="top-right">
-                    <div class="mod-light">
-                        <div id="normal-bar">
-                            <h2>Sign Up</h2>
-                        </div>
-                        <span class="text">
-                            <form action="/request/sign_up" method="POST">
-                                <span class="text-form">
-                                    <b>Username</b><br>
-                                    Your username has to be shorter than 32 characters and longer than 6 characters. It must not contain any special characters.<br>
-                                    <span style="color:red">* this input is required</span>
-                                </span>
-                                <input type="text" name="pebble_username" placeholder="Username" class="generic-input"><br>
-                                <span class="text-form">
-                                    <b>Site Name</b><br>
-                                    Your site name has to be shorter than 32 characters and longer than 6 characters. It must not contain any special characters.<br>
-                                    This is the way people will access your site.<br>Your site can be accessed like pebbles.cf/~mysitename/<br>
-                                    <span style="color:red">* this input is required</span>
-                                </span>
-                                <input type="text" name="pebble_site_name" placeholder="Site Name" class="generic-input"><br>
-                                <span class="text-form">
-                                    <b>Password</b><br>
-                                    There is no limitation for passwords, but make sure it is secure and safe.<br>
-                                    <span style="color:red">* this input is required</span>
-                                </span>
-                                <input type="password" name="pebble_password" placeholder="Password" class="generic-input"><br><br>
-                                <input type="submit" value="Sign Up">
-                            </form>
-                        </span> 
-                    </div>
-                </div>
-            </div>
-            {% include 'footer.twig' %}
+{%- block top_right -%}
+    <div class="mod-light">
+        <div id="normal-bar">
+            <h2>Sign Up</h2>
         </div>
-    </body>
-</html>
+        <span class="text">
+            <form action="/request/sign_up" method="POST">
+                <span class="text-form">
+                    <b>Username</b><br>
+                    Your username has to be shorter than 32 characters and longer than 6 characters. It must not contain any special characters.<br>
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="text" name="pebble_username" placeholder="Username" class="generic-input"><br>
+                <span class="text-form">
+                    <b>Site Name</b><br>
+                    Your site name has to be shorter than 32 characters and longer than 6 characters. It must not contain any special characters.<br>
+                    This is the way people will access your site.<br>Your site can be accessed like pebbles.cf/~mysitename/<br>
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="text" name="pebble_site_name" placeholder="Site Name" class="generic-input"><br>
+                <span class="text-form">
+                    <b>Password</b><br>
+                    There is no limitation for passwords, but make sure it is secure and safe.<br>
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="password" name="pebble_password" placeholder="Password" class="generic-input"><br><br>
+                <input type="submit" value="Sign Up">
+            </form>
+        </span> 
+    </div>
+{% endblock %}
