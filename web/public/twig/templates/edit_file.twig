@@ -7,9 +7,14 @@
             <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
             <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
             <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
-            <script src="/assets/built-in/js/codemirror.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/htmlmixed/htmlmixed.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/javascript/javascript.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/css/css.js"></script>
             <link href="/assets/built-in/css/home.css" rel="stylesheet">
-            <link href="/assets/built-in/css/codemirror.css" rel="stylesheet">
+            <link href="/assets/built-in/css/shadowfox.css" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
@@ -27,7 +32,7 @@
                         </div>
                         <span class="text">
                             <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
-                                <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea>
+                                <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
                                 <input type="submit" value="Update File">
                             </form>
                         </span> 
@@ -35,12 +40,15 @@
                         <script>
                             var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
                                 lineNumbers: true,
-                                mode: "text/html",
-                                theme: "base16-dark",
+                                mode: {
+                                    name: "htmlmixed"
+                                }, 
+                                htmlMode: true,
+                                theme: "shadowfox",
                                 matchBrackets: true
                             });
 
-                            editor.setSize(500, 300);
+                            editor.setSize(650, 500);
                         </script>
                     </div>
                 </div>

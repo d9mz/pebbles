@@ -23,10 +23,18 @@
                         <div id="normal-bar">
                             <h2>Your Site's Files</h2>
                         </div>
-                        <span class="text" style="margin-left: 32px;">
+                        <span class="text" style="margin-left: 32px;width: 95%;">
                             {% for file in files_row %}
                                 {% if file.id is defined %}
-                                    <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> | <a href="/edit_file?file={{ file.file_name|escape }}">Edit</a> | <a href="/request/delete_file?file={{ file.file_name|escape }}">Delete</a><br>
+                                    <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                                    {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
+                                        <span style="float: right">
+                                            <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Delete</button></a>
+                                            <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
+                                        </span><br>
+                                    {% else %}
+                                        <br>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                             {% if files_row.rows == 0 %}
