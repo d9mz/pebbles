@@ -103,12 +103,21 @@ $router->get('/new_file', function() use ($twig, $__db, $formatter, $insert, $fe
     );
 });
 
+$router->get('/upload_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    echo $twig->render('upload_file.twig', 
+        array(
+
+        )
+    );
+});
+
 $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username ORDER BY id DESC");
     $files_search->bindParam(":username", $_SESSION['domainname']);
 	$files_search->execute();
 	
 	while($file = $files_search->fetch(PDO::FETCH_ASSOC)) { 
+        $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
 		$files[] = $file;
 	}
 
@@ -121,20 +130,32 @@ $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $f
     );
 });
 
-$router->get('/site/(\w+)/([^/]+)', function($username, $file_name) use ($twig, $__db, $formatter, $insert, $fetch, $purifier) { 
+$router->get('/site/(\w+)/(.*)', function($username, $file_name) use ($twig, $__db, $formatter, $insert, $fetch, $purifier) { 
     $user = $fetch->fetch_table_singlerow($username, "users", "username");
     $file = $fetch->fetch_file($username, $file_name);
+    $directory = explode("/", $file_name);
 
-    if(!isset($file['id'])) {
-        echo "This file does not exist!";
-    } else {
-        if(pathinfo($file['file_name'], PATHINFO_EXTENSION) == "css")
-            $file['mime_type'] = "text/css";
-        
-        header("Content-type: " . $file['mime_type']);
-        // echo $purifier->purify($file['contents']);
-        echo $file['contents'];
+    if(!isset($file['id'])) 
+        die("This file does not exist!");
+
+    $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
+       
+    if($file['ext'] == "css") {
+        $file['mime_type'] = "text/css";
+    } else if($file['ext'] == "gif") {
+        $file['mime_type'] = "image/gif";
+        $file['contents']  = file_get_contents("assets/img/" . $file['file_name']);
+    } else if($file['ext'] == "jpg" || $file['ext'] == "jpeg") {
+        $file['mime_type'] = "image/jpeg";
+        $file['contents']  = file_get_contents("assets/img/" . $file['file_name']);
+    } else if($file['ext'] == "png") {
+        $file['mime_type'] = "image/png";
+        $file['contents']  = file_get_contents("assets/img/" . $file['file_name']);
     }
+    
+    header("Content-type: " . $file['mime_type']);
+    // echo $purifier->purify($file['contents']);
+    echo $file['contents'];
 });
 
 $router->set404(function() {

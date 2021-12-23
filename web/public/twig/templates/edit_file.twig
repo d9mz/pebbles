@@ -8,26 +8,28 @@
 
 
 {%- block top_right -%}
-    <div class="mod-light">
-        <div id="normal-bar">
-            <h2>Editing {{ file.file_name|escape }}</h2>
-        </div>
-        <span class="text">
-            <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
-                <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea>
-                <input type="submit" value="Update File">
-            </form>
-        </span> 
+  <div class="mod-light">
+      <div id="normal-bar">
+          <h2>Editing {{ file.file_name|escape }}</h2>
+      </div>
+      <span class="text">
+          <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
+              <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
+              <input type="submit" value="Update File">
+          </form>
+      </span> 
 
-        <script>
-            var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
-                lineNumbers: true,
-                mode: "text/html",
-                theme: "base16-dark",
-                matchBrackets: true
-            });
-
-            editor.setSize(500, 300);
-        </script>
-    </div>
+      <script>
+          var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
+              lineNumbers: true,
+              mode: {
+                  name: "htmlmixed"
+              }, 
+              htmlMode: true,
+              theme: "shadowfox",
+              matchBrackets: true
+          });
+          editor.setSize(650, 500);
+      </script>
+  </div>
 {% endblock %}
