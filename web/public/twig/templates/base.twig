@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            <title>{{ metadata.og_context.title|escape }}</title>
+            <meta property="og:title" content="{{ metadata.og_context.title|escape }}" />
+            <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
+            <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
+            <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
+            <link href="/assets/built-in/css/home.css" rel="stylesheet">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="site">
+            <div class="site-container">
+            {% block site_container %}
+                {% include 'header.twig' %}
+
+                <div class="top-left">
+                {% block top_left %}
+                    {% include 'sidebar.twig' %}
+                {% endblock %}
+                </div>
+                <div class="top-right">
+                {% block top_right %}{% endblock %}
+                </div>
+            {% endblock %}
+            </div>
+            {% include 'footer.twig' %}
+        </div>
+    </body>
+</html>

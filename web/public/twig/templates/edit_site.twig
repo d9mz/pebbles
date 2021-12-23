@@ -1,42 +1,19 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% block head %}
-            <title>{{ metadata.og_context.title|escape }}</title>
-            <meta property="og:title" content="{{ metadata.og_context.title|escape }}" />
-            <meta property="og:description" content="{{ metadata.og_context.description|escape }}" />
-            <meta property="og:url" content="{{ metadata.og_context.url|escape }}" />
-            <meta property="og:image" content="{{ metadata.og_context.picture|escape }}" />
-            <link href="/assets/built-in/css/home.css" rel="stylesheet">
-        {% endblock %}
-    </head>
-    <body>
-        <div class="site">
-            <div class="site-container">
-                {% include 'header.twig' %}
+{% extends "base.twig" %}
 
-                <div class="top-left">
-                    {% include 'sidebar.twig' %}
-                </div>
-                <div class="top-right">
-                    <div class="mod-light">
-                        <div id="normal-bar">
-                            <h2>Your Site's Files</h2>
-                        </div>
-                        <span class="text" style="margin-left: 32px;">
-                            {% for file in files_row %}
-                                {% if file.id is defined %}
-                                    <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> | <a href="/edit_file?file={{ file.file_name|escape }}">Edit</a> | <a href="/request/delete_file?file={{ file.file_name|escape }}">Delete</a><br>
-                                {% endif %}
-                            {% endfor %}
-                            {% if files_row.rows == 0 %}
-                                You have no files. Do you want to <a href="/new_file">make one?</a>
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            {% include 'footer.twig' %}
+{%- block top_right -%}
+    <div class="mod-light">
+        <div id="normal-bar">
+            <h2>Your Site's Files</h2>
         </div>
-    </body>
-</html>
+        <span class="text" style="margin-left: 32px;">
+            {% for file in files_row %}
+                {% if file.id is defined %}
+                    <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> | <a href="/edit_file?file={{ file.file_name|escape }}">Edit</a> | <a href="/request/delete_file?file={{ file.file_name|escape }}">Delete</a><br>
+                {% endif %}
+            {% endfor %}
+            {% if files_row.rows == 0 %}
+                You have no files. Do you want to <a href="/new_file">make one?</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
