@@ -33,14 +33,29 @@ if(isset($file['id']))
 if(empty(trim($request->filename)))
     $request->error->message = "Your file does not exist";
 
+if(isset($_GET['dir']) && empty(trim($_GET['dir'])))
+    $request->error->message = "Directory not valid";
+else if(isset($_GET['dir']) && !empty(trim($_GET['dir'])))
+    $request->directory = $_GET['dir'];
+
 if($request->error->message == "") {
-    $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to) VALUES (:file_name, :contents, :belongs_to)");
-    $stmt->bindParam(":file_name", $request->filename);
-    $stmt->bindParam(":contents", $request->content);
-    $stmt->bindParam(":belongs_to", $request->username);
-    $stmt->execute();
+    if(isset($request->directory)) {
+        $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to, parent) VALUES (:file_name, :contents, :belongs_to, :parent)");
+        $stmt->bindParam(":file_name", $request->filename);
+        $stmt->bindParam(":contents", $request->content);
+        $stmt->bindParam(":belongs_to", $request->username);
+        $stmt->bindParam(":parent", $request->directory);
+        $stmt->execute();
+    } else {
+        $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to) VALUES (:file_name, :contents, :belongs_to)");
+        $stmt->bindParam(":file_name", $request->filename);
+        $stmt->bindParam(":contents", $request->content);
+        $stmt->bindParam(":belongs_to", $request->username);
+        $stmt->execute();
+    }
 } else {
     $_SESSION['error'] = $request->error;
 }
 
+// print_r($request);
 header("Location: /edit_file?file=" . $request->filename);

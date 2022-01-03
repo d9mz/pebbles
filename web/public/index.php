@@ -44,6 +44,7 @@ $metadata = [
     ],
 ];
 
+$usersess = @$_SESSION['siteusername'];
 $sites_search = $__db->prepare("SELECT id FROM users");
 $sites_search->execute();
 $metadata["user_context"]["sites_on_site"] = $sites_search->rowCount();
@@ -62,27 +63,15 @@ $router->get('/', function() use ($twig, $__db, $formatter, $insert, $fetch) {
 
 	$sites['rows'] = $sites_search->rowCount();
 
-    echo $twig->render('index.twig', 
-        array(
-            'sites' => $sites,
-        )
-    );
+    echo $twig->render('index.twig', array('sites' => $sites,));
 });
 
 $router->get('/sign_up', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
-    echo $twig->render('sign_up.twig', 
-        array(
-
-        )
-    );
+    echo $twig->render('sign_up.twig', array());
 });
 
 $router->get('/sign_in', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
-    echo $twig->render('sign_in.twig', 
-        array(
-
-        )
-    );
+    echo $twig->render('sign_in.twig', array());
 });
 
 $router->get('/edit_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
@@ -98,6 +87,14 @@ $router->get('/edit_file', function() use ($twig, $__db, $formatter, $insert, $f
 $router->get('/new_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     echo $twig->render('new_file.twig', 
         array(
+            'current_dir' => @$_GET['dir'],
+        )
+    );
+});
+
+$router->get('/new_folder', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    echo $twig->render('new_folder.twig', 
+        array(
 
         )
     );
@@ -112,8 +109,44 @@ $router->get('/upload_file', function() use ($twig, $__db, $formatter, $insert, 
 });
 
 $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    if(!isset($_GET['dir'])) {
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = '/' ORDER BY id DESC");
+        $files_search->bindParam(":username", $_SESSION['domainname']);
+        $files_search->execute();
+        
+        while($file = $files_search->fetch(PDO::FETCH_ASSOC)) { 
+            $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
+            $files[] = $file;
+        }
+
+        $files['rows'] = $files_search->rowCount();
+    } else {
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = :parent ORDER BY id DESC");
+        $files_search->bindParam(":username", $_SESSION['domainname']);
+        $files_search->bindParam(":parent", $_GET['dir']);
+        $files_search->execute();
+        
+        while($file = $files_search->fetch(PDO::FETCH_ASSOC)) { 
+            $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
+            $files[] = $file;
+        }
+
+        $files['rows'] = $files_search->rowCount();
+    }
+
+    echo $twig->render('edit_site.twig', 
+        array(
+            'current_dir' => @$_GET['dir'],
+            'files_row' => $files,
+        )
+    );
+});
+
+$router->get('/user/(\w+)', function($username) use ($twig, $__db, $formatter, $insert, $fetch, $purifier, $usersess) { 
+    $user_info = $fetch->fetch_table_singlerow($username, "users", "username");
+
     $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username ORDER BY id DESC");
-    $files_search->bindParam(":username", $_SESSION['domainname']);
+    $files_search->bindParam(":username", $user_info['domain']);
 	$files_search->execute();
 	
 	while($file = $files_search->fetch(PDO::FETCH_ASSOC)) { 
@@ -123,17 +156,65 @@ $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $f
 
 	$files['rows'] = $files_search->rowCount();
 
-    echo $twig->render('edit_site.twig', 
+    $comments_search = $__db->prepare("SELECT * FROM profile_comments WHERE comment_to = :username ORDER BY id DESC");
+    $comments_search->bindParam(":username", $user_info['username']);
+	$comments_search->execute();
+	
+	while($comment = $comments_search->fetch(PDO::FETCH_ASSOC)) { 
+		$comments[] = $comment;
+	}
+
+	$comments['rows'] = $comments_search->rowCount();
+
+    $followers_search = $__db->prepare("SELECT * FROM follower WHERE following = :following");
+    $followers_search->bindParam(":following", $user_info['username']);
+	$followers_search->execute();
+	
+	while($follow = $followers_search->fetch(PDO::FETCH_ASSOC)) { 
+		$followers[] = $follow;
+	}
+
+	$followers['rows'] = $followers_search->rowCount();
+    
+    $stmt = $__db->prepare("SELECT * FROM follower WHERE following = :following AND from_user = :from_user");
+    $stmt->bindParam(":following", $user_info['username']);
+    $stmt->bindParam(":from_user", $usersess);
+    $stmt->execute();
+    
+    $follows = $stmt->rowCount();
+
+    echo $twig->render('user.twig', 
         array(
+            'follows'   => $follows,
+            'followers' => $followers,
+            'user_info' => $user_info,
             'files_row' => $files,
+            'comments'  => $comments,
         )
     );
 });
 
 $router->get('/site/(\w+)/(.*)', function($username, $file_name) use ($twig, $__db, $formatter, $insert, $fetch, $purifier) { 
+    $directory = explode("/", $file_name);
     $user = $fetch->fetch_table_singlerow($username, "users", "username");
     $file = $fetch->fetch_file($username, $file_name);
-    $directory = explode("/", $file_name);
+
+    if(count($directory) > 1) {
+        $file = end($directory);
+        array_pop($directory);
+        $directory = implode("/", $directory);
+        $directory = "/" . $directory . "/";
+
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND file_name = :file_name AND parent = :parent ORDER BY id DESC");
+        $files_search->bindParam(":username", $username);
+        $files_search->bindParam(":file_name", $file);
+        $files_search->bindParam(":parent", $directory);
+        $files_search->execute();
+
+        $file = $files_search->fetch(PDO::FETCH_ASSOC);
+    } else {
+        $file = $fetch->fetch_file($username, $file_name);
+    }
 
     if(!isset($file['id'])) 
         die("This file does not exist!");
@@ -167,6 +248,7 @@ $router->set404(function() {
 
 $twig->addGlobal('metadata',  $metadata);
 $twig->addGlobal('session',   $_SESSION);
+$twig->addGlobal('get',       $_GET    );
 $twig->addGlobal('hardcoded', $init    );
 unset($_SESSION['error']);
 $router->run();

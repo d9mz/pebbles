@@ -26,7 +26,8 @@ $request = (object) [
 
 $target_dir = "../assets/img/";
 $imageFileType = strtolower(pathinfo($_FILES["file_upload"]["name"],PATHINFO_EXTENSION));
-$target_name = md5_file($_FILES["file_upload"]["tmp_name"]) . "." . $imageFileType;
+$target_name = preg_replace("/[^a-zA-Z0-9.]/", "", $_FILES["file_upload"]["name"]);
+
 $target_file = $target_dir . $target_name;
 
 if(isset($_POST["submit"])) {

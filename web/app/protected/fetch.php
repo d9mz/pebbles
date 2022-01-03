@@ -8,9 +8,9 @@ class Fetcher {
         $this->__db = $conn;
 	}
 
-    function fetch_table_singlerow($username, $table_name, $column_name) {
-        $stmt = $this->__db->prepare("SELECT * FROM " . $table_name . " WHERE " . $column_name . " = :username");
-        $stmt->bindParam(":username", $username);
+    function fetch_table_singlerow($find_specific_in_table, $table_name, $where_column_name) {
+        $stmt = $this->__db->prepare("SELECT * FROM " . $table_name . " WHERE " . $where_column_name . " = :find");
+        $stmt->bindParam(":find", $find_specific_in_table);
         $stmt->execute();
 
         return ($stmt->rowCount() === 0 ? 0 : $stmt->fetch(\PDO::FETCH_ASSOC));
@@ -23,5 +23,13 @@ class Fetcher {
         $stmt->execute();
 
         return ($stmt->rowCount() === 0 ? 0 : $stmt->fetch(\PDO::FETCH_ASSOC));
+    }
+
+    function user_exists($user) {
+        $stmt = $this->__db->prepare("SELECT username FROM users WHERE username = :username");
+        $stmt->bindParam(":username", $user);
+        $stmt->execute();
+
+        return $stmt->rowCount() === 1;
     }
 }

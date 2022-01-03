@@ -1,0 +1,94 @@
+{% extends "base.twig" %}
+{%- block top_right -%}
+    <div class="mod-light" style="overflow:auto;">
+        <div id="normal-bar">
+            <h2>{{ user_info.username|escape }}</h2> 
+            <a href="/request/follow?to={{ user_info.username|escape }}">
+                <button style="margin-left: 30px;">
+                    Follow{% if follows == 1 %}ing{% endif %}
+                </button>
+            </a>
+            <button>
+                Message
+            </button>
+        </div>
+        <br>
+        <div class="top-half-left" style="width: calc( 52% - 20px );">
+            <hr><h3>About this user...</h3><br>
+            {% if session.siteusername == user_info.username %}
+                <form action="/request/update_user?action=bio" method="post">
+                    <textarea name="bio" class="generic-input" style="width: 330px;height:100px;">{{ user_info.user_bio|escape }}</textarea><br><br>
+                    <input type="submit" value="Update Bio">
+                </form>
+            {% else %}
+                {{ user_info.user_bio|escape|nl2br }}
+            {% endif %}
+            <hr><h3>More info about this user...</h3><br>
+            <span class="text">
+                Last Login: <small style="float:right">{{ user_info.last_login }}</small><br>
+                Registered on: <small style="float:right">{{ user_info.sign_up }}</small><br>
+                Unique HEX: <small style="float:right">{{ user_info.color }}</small><br>
+            </span>
+            <hr><h3>Files this user has...</h3><br>
+            {% for file in files_row %}
+                {% if file.id is defined %}
+                    {% if file.ext != "" %}
+                        {% if (file.parent != "/") %}
+                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}{{ current_dir }}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                        {% else %}
+                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                        {% endif %}
+                    {% else %}
+                        <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                    {% endif %}
+                    {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
+                        <span style="float: right">
+                            <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
+                        </span><br>
+                    {% else %}
+                        {% if file.ext != "" %}
+                            {% if (file.parent == "/") %}
+                                <br>
+                            {% else %}
+                                <br>
+                            {% endif %}
+                        {% else %}
+                                <br>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if files_row.rows == 0 %}
+                This user has no files.
+            {% endif %}
+            <br>
+            <hr><h3>These people are following this person...</h3><br>
+            {% for follow in followers %}
+                {% if follow.id is defined %}
+                    <a style="width: 23%;display: inline-block;text-align: center;" href="/user/{{ follow.from_user }}">{{ follow.from_user }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if followers.rows == 0 %}
+                This user has no followers.
+            {% endif %}
+        </div>
+        <div class="top-half-right">
+            <hr><h3>Comments on this user...</h3><br>
+            {% if session.siteusername is defined %}
+                <form action="/request/comment?user={{ user_info.username|escape }}" method="post">
+                    <textarea name="comment" class="generic-input" style="width: 316px;height:50px;" placeholder="Comment"></textarea><br><br>
+                    <input type="submit" value="Comment">
+                </form>
+            {% endif %}
+            {% for comment in comments %}
+                {% if comment.id is defined %}
+                    <hr>
+                    <b><i><a href="/user/{{ comment.comment_author|escape }}">{{ comment.comment_author|escape }}</a></i></b> &bull; {{ comment.comment_created }}<br>
+                    <span class="text">
+                        {{ comment.comment_text|escape }}
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

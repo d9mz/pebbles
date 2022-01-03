@@ -63,7 +63,7 @@
             <div class="mod-light" style="float: right;width: 622px;height: 65px;overflow-y: scroll;">
                 {% for site in sites %}
                     {% if site.id is defined %}
-                        <a style="color: {{ site.color }};width: 23%;display: inline-block;text-align: center;" href="/site/{{ site.domain }}/index.html">{{ site.username }}</a>
+                        <a style="color: {{ site.color }};width: 23%;display: inline-block;text-align: center;" href="/user/{{ site.username }}">{{ site.username }}</a>
                     {% endif %}
                 {% endfor %}
             </div>

@@ -3,21 +3,56 @@
 {%- block top_right -%}
     <div class="mod-light">
             <div id="normal-bar">
-                <h2>Your Site's Files</h2>
+                {% if current_dir != "" %}
+                    <h2>{{ current_dir }}</h2>
+                {% else %}
+                    <h2>Your Site's Files</h2> 
+                {% endif %}
+                <a 
+                    style="margin-left:30px;" 
+                    {% if current_dir != "" %}
+                        href="/new_file?dir={{ current_dir }}"
+                    {% else %}
+                        href="/new_file"
+                    {% endif %}
+                >
+                    <button>Create File</button>
+                </a> 
+                <a href="/new_folder"><button>Create Folder</button></a>
             </div>
             <span class="text" style="margin-left: 32px;width: 95%;">
                 {% for file in files_row %}
                     {% if file.id is defined %}
-                        <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                        {% if file.ext != "" %}
+                            {% if (file.parent != "/") %}
+                                <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}{{ current_dir }}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                            {% else %}
+                                <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                            {% endif %}
+                        {% else %}
+                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                        {% endif %}
                         {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
                             <span style="float: right">
                                 <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Delete</button></a>
                                 <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
                             </span><br>
                         {% else %}
-                            <span style="float: right">
-                                <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
-                            </span><br>
+                            {% if file.ext != "" %}
+                                {% if (file.parent == "/") %}
+                                    <span style="float: right">
+                                        <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                                    </span><br>
+                                {% else %}
+                                    <span style="float: right">
+                                        <a href="/edit_file?file={{ file.file_name|escape }}&dir={{ current_dir }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                                    </span><br>
+                                {% endif %}
+                            {% else %}
+                                <span style="float: right">
+                                    <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                                </span><br>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}

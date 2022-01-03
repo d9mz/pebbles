@@ -1,0 +1,19 @@
+{% extends "base.twig" %}
+
+{%- block top_right -%}
+    <div class="mod-light">
+        <div id="normal-bar">
+            <h2>Create a Folder</h2>
+        </div>
+        <span class="text">
+            <form action="/request/make_folder" method="POST">
+                <span class="text-form">
+                    <b>Folder Name</b><br>
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="text" name="folder_name" placeholder="Folder Name" class="generic-input"><br><br>
+                <input type="submit" value="Make Folder">
+            </form>
+        </span> 
+    </div>
+{% endblock %}
