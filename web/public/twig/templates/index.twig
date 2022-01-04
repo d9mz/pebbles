@@ -18,7 +18,7 @@
                     {% if site.id is defined %}
                         <div class="site-item">
                             {% if site.domain|length > 14 %}
-                                <h3><a href="/site/{{ site.domain }}/index.html">{{ site.domain }}</a></h3>
+                                <h3><a href="/site/{{ site.domain }}/index.html">{{ site.domain|length > 10 ? site.domain|slice(0, 10) ~ '...' : site.domain  }}</a></h3>
                             {% else %}
                                 <h2><a href="/site/{{ site.domain }}/index.html">{{ site.domain }}</a></h2>
                             {% endif %}
