@@ -34,9 +34,9 @@
                 {% if file.id is defined %}
                     {% if file.ext != "" %}
                         {% if (file.parent != "/") %}
-                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}{{ current_dir }}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ file.belongs_to|escape }}{{ current_dir }}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
                         {% else %}
-                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ file.belongs_to|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
                         {% endif %}
                     {% else %}
                         <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
