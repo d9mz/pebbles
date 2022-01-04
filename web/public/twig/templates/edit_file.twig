@@ -37,7 +37,8 @@
             <h2>Editing {{ file.file_name|escape }}</h2>  
             <input style="float:right" type="submit" value="Update File">
             <select onchange="selectTheme()" class="generic-input" style="float:right;width:100px;" id="select">
-                <option selected="">pebbles</option>
+                <option selected="">base16-dark</option>
+                <option>pebbles</option>
                 <option>default</option>
                 <option>3024-day</option>
                 <option>3024-night</option>
@@ -45,7 +46,6 @@
                 <option>abcdef</option>
                 <option>ayu-dark</option>
                 <option>ayu-mirage</option>
-                <option>base16-dark</option>
                 <option>base16-light</option>
                 <option>bespin</option>
                 <option>blackboard</option>
@@ -60,7 +60,7 @@
             lineNumbers: true,
             matchBrackets: true,
             mode: {
-                name: "htmlmixed"
+                name: "base16-dark"
             }, 
             theme: "pebbles", 
             fontSize: 14,
