@@ -1,0 +1,29 @@
+/*pebbles
+CodeMirror theme file created with CodeMirror-Themes
+https://github.com/mkaminsky11/codemirror-themes*/
+.cm-s-pebbles.CodeMirror{background:rgba(28,41,27,1) !important;}
+.cm-s-pebbles.CodeMirror{color:rgb(255, 255, 255) !important;}
+.cm-s-pebbles div.CodeMirror-selected{background:rgba(0,0,0,1) !important;}
+.cm-s-pebbles .CodeMirror-gutters{background:rgba(11,18,11,1) !important;}
+.cm-s-pebbles .CodeMirror-guttermarker{color:rgb(195, 235, 186) !important;}
+.cm-s-pebbles .CodeMirror-guttermarker-subtle{color:rgb(118, 221, 97) !important;}
+.cm-s-pebbles .CodeMirror-linenumber{color:rgb(165, 241, 129) !important;}
+.cm-s-pebbles .CodeMirror-cursor{border-color:rgba(0,0,0,1) !important;}
+.cm-s-pebbles span.cm-comment{color:rgba(85,85,85,1) !important;}
+.cm-s-pebbles span.cm-atom{color:rgba(200,237,171,1) !important;}
+.cm-s-pebbles span.cm-number{color:rgba(120,207,138,1) !important;}
+.cm-s-pebbles span.cm-property{color:rgba(238,209,179,1) !important;}
+.cm-s-pebbles span.cm-attribute{color:rgba(161,233,130,1) !important;}
+.cm-s-pebbles span.cm-keyword{color:rgba(196,205,192,1) !important;}
+.cm-s-pebbles span.cm-string{color:rgba(178,175,168,1) !important;}
+.cm-s-pebbles span.cm-string-2{color:rgba(157,147,124,1) !important;}
+.cm-s-pebbles span.cm-variable{color:rgba(255,183,149,1) !important;}
+.cm-s-pebbles span.cm-variable-2{color:rgba(238,209,179,1) !important;}
+.cm-s-pebbles span.cm-def{color:rgba(170,198,227,1) !important;}
+.cm-s-pebbles span.cm-bracket{color:rgba(200,255,187,1) !important;}
+.cm-s-pebbles span.cm-tag{color:rgba(177,255,158,1) !important;}
+.cm-s-pebbles span.cm-link{color:rgba(244,194,11,1) !important;}
+.cm-s-pebbles span.cm-error{background:rgba(0,0,0,1) !important;}
+.cm-s-pebbles span.cm-error{color:rgba(175,32,24,1) !important;}
+.cm-s-pebbles .CodeMirror-activeline-background{color:rgb(112, 168, 101) !important;}
+.cm-s-pebbles .CodeMirror-matchingbracket{color:rgba(0,255,0,1) !important;}

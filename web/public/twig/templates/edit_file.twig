@@ -4,38 +4,94 @@
     {{ parent() }}
     <script src="/assets/built-in/js/codemirror.js"></script>
     <script src="/assets/built-in/js/xml.js"></script>
-    <script src="/assets/built-in/js/html.js"></script>
     <script src="/assets/built-in/js/css.js"></script>
     <script src="/assets/built-in/js/javascript.js"></script>
     <script src="/assets/built-in/js/htmlmixed.js"></script>
+    <script src="/assets/built-in/js/hint.js"></script>
+    <script src="/assets/built-in/js/xml-hint.js"></script>
+    <script src="/assets/built-in/js/html_hint.js"></script>
+    <script src="/assets/built-in/js/css-hint.js"></script>
+    <script src="/assets/built-in/js/show-hint.js"></script>
+    <script src="/assets/built-in/js/javascript-hint.js"></script>
     <link href="/assets/built-in/css/codemirror.css" rel="stylesheet">
-    <link href="/assets/built-in/css/shadowfox.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/3024-night.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/3024-day.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/abbott.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/abcdef.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/ambiance.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/ayu-dark.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/ayu-mirage.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/base16-dark.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/base16-light.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/bespin.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/pebbles.css" rel="stylesheet">
+    <link href="/assets/built-in/css/themes/blackboard.css" rel="stylesheet">
+    <link href="/assets/built-in/css/show-hint.css" rel="stylesheet">
 {% endblock %}
 
 
 {%- block top_right -%}
-  <div class="mod-light">
-      <div id="normal-bar">
-          <h2>Editing {{ file.file_name|escape }}</h2>
-      </div>
-      <span class="text">
-          <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
-              <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
-              <input type="submit" value="Update File">
-          </form>
-      </span> 
+<div class="mod-light">
+    <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
+        <div id="normal-bar">
+            <h2>Editing {{ file.file_name|escape }}</h2>  
+            <input style="float:right" type="submit" value="Update File">
+            <select onchange="selectTheme()" class="generic-input" style="float:right;width:100px;" id="select">
+                <option selected="">pebbles</option>
+                <option>default</option>
+                <option>3024-day</option>
+                <option>3024-night</option>
+                <option>abbott</option>
+                <option>abcdef</option>
+                <option>ayu-dark</option>
+                <option>ayu-mirage</option>
+                <option>base16-dark</option>
+                <option>base16-light</option>
+                <option>bespin</option>
+                <option>blackboard</option>
+            </select>
+        </div>
+        <span class="text">
+            <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
+        </span> 
+    </form>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: {
+                name: "htmlmixed"
+            }, 
+            theme: "pebbles",
+            fontSize: 14,
+            autocorrect: true,
+            htmlMode: true,
+            styleActiveLine: true,
+            styleActiveSelected: true,
+            extraKeys: {"Shift-Space": "autocomplete"},
+            lineWrapping: true
+        });
 
-      <script>
-          var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
-              lineNumbers: true,
-              mode: {
-                  name: "htmlmixed"
-              }, 
-              htmlMode: true,
-              theme: "shadowfox",
-              matchBrackets: true
-          });
-          editor.setSize(650, 500);
-      </script>
-  </div>
+        editor.on("inputRead", function(instance) {
+            if (instance.state.completionActive) {
+                    return;
+            }
+            var cur = instance.getCursor();
+            var token = instance.getTokenAt(cur);
+            if (token.type && token.type != "comment") {
+                    CodeMirror.commands.autocomplete(instance);
+            }
+        });
+
+        
+        var input = document.getElementById("select");
+        function selectTheme() {
+            var theme = input.options[input.selectedIndex].textContent;
+            editor.setOption("theme", theme);
+            location.hash = "#" + theme;
+        }
+
+        editor.setSize(700, 442);
+    </script>
+</div>
 {% endblock %}
