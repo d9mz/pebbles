@@ -17,7 +17,11 @@
                 {% for site in sites %}
                     {% if site.id is defined %}
                         <div class="site-item">
-                            <h2><a href="/site/{{ site.domain }}/index.html">{{ site.domain }}</a></h2>
+                            {% if site.domain|length > 14 %}
+                                <h3><a href="/site/{{ site.domain }}/index.html">{{ site.domain }}</a></h3>
+                            {% else %}
+                                <h2><a href="/site/{{ site.domain }}/index.html">{{ site.domain }}</a></h2>
+                            {% endif %}
                             <span class="site-info">
                             by {{ site.username }}<br>
                             ...last updated at <i>{{ site.last_login|date("h:iA") }}</i>
