@@ -27,18 +27,27 @@ $request = (object) [
 
 $file = $fetch->fetch_file($_SESSION['domainname'], $_GET['file']);
 
-if(!isset($file['id'])) {
-    $request->error->message = "Your file does not exist";
-} else if($file['belongs_to'] != $_SESSION['domainname']) {
-    $request->error->message = "Your file does not exist";
-}
-
-if($request->error->message == "") {
-    $stmt = $__db->prepare("UPDATE files SET contents = :content WHERE file_name = :filename AND belongs_to = :belongs_to");
-    $stmt->bindParam(":content", $request->content);
-    $stmt->bindParam(":filename", $request->filename);
-    $stmt->bindParam(":belongs_to", $request->username);
-    $stmt->execute();
+if (!empty($_POST['token'])) {
+    if (hash_equals($_SESSION['token'], $_POST['token'])) {
+        if(!isset($file['id'])) {
+            $request->error->message = "Your file does not exist";
+        } else if($file['belongs_to'] != $_SESSION['domainname']) {
+            $request->error->message = "Your file does not exist";
+        }
+        
+        if($request->error->message == "") {
+            $stmt = $__db->prepare("UPDATE files SET contents = :content WHERE file_name = :filename AND belongs_to = :belongs_to");
+            $stmt->bindParam(":content", $request->content);
+            $stmt->bindParam(":filename", $request->filename);
+            $stmt->bindParam(":belongs_to", $request->username);
+            $stmt->execute();
+        } else {
+            $_SESSION['error'] = $request->error;
+        }
+    } else {
+        $request->error->message = "Invalid CSRF token.";
+        $_SESSION['error'] = $request->error;
+    }
 }
 
 header("Location: /edit_file?file=" . $request->filename);

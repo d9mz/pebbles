@@ -33,6 +33,7 @@
 {%- block top_right -%}
 <div class="mod-light">
     <form action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
+        <input type="hidden" name="token" value="{{ form_token() }}" />
         <div id="normal-bar">
             <h2>Editing {{ file.file_name|escape }}</h2>  
             <input style="float:right" type="submit" value="Update File">
