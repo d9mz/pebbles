@@ -143,6 +143,17 @@ $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $f
 });
 
 $router->get('/user/(\w+)', function($username) use ($twig, $__db, $formatter, $insert, $fetch, $purifier, $usersess) { 
+    if(!$fetch->user_exists($username)) {
+        $request = (object) [
+            "error" => (object) [
+                "message" => "This user does not exist.",
+            ],
+        ];
+        
+        $_SESSION['error'] = $request->error;
+        header("Location: /");
+    }
+
     $user_info = $fetch->fetch_table_singlerow($username, "users", "username");
 
     $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username ORDER BY id DESC");
