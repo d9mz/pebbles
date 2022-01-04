@@ -1,6 +1,6 @@
 /*pebbles
 CodeMirror theme file created with CodeMirror-Themes
-https://github.com/mkaminsky11/codemirror-themes*/
+https://github.com/mkaminsky11/codemirror-themes*/ 
 .cm-s-pebbles.CodeMirror{background:rgba(28,41,27,1) !important;}
 .cm-s-pebbles.CodeMirror{color:rgb(255, 255, 255) !important;}
 .cm-s-pebbles div.CodeMirror-selected{background:rgba(0,0,0,1) !important;}
