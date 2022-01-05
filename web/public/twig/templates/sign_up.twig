@@ -1,8 +1,12 @@
 {% extends "base.twig" %}
 
-{%- block top_right -%}
+{%- block head -%}
+    {{ parent() }}
     <script src='https://www.google.com/recaptcha/api.js' async defer></script>
     <script>function onLogin(token){ document.getElementById('sign_up_form').submit(); }</script>
+{% endblock %}
+
+{%- block top_right -%}
     <div class="mod-light">
         <div id="normal-bar">
             <h2>Sign Up</h2>
