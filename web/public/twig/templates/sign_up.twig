@@ -2,8 +2,10 @@
 
 {%- block head -%}
     {{ parent() }}
-    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-    <script>function onLogin(token){ document.getElementById('sign_up_form').submit(); }</script>
+    <!--
+        <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+        <script>function onLogin(token){ document.getElementById('sign_up_form').submit(); }</script>
+    -->
 {% endblock %}
 
 {%- block top_right -%}
@@ -32,7 +34,7 @@
                     <span style="color:red">* this input is required</span>
                 </span>
                 <input type="password" name="pebble_password" placeholder="Password" class="generic-input"><br><br>
-                <input type="submit" value="Sign Up"  class="g-recaptcha" data-sitekey="{{ r_site_key }}">
+                <input type="submit" value="Sign Up" class="g-recaptcha" data-sitekey="{{ r_site_key }}">
             </form>
         </span> 
     </div>
