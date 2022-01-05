@@ -29,11 +29,13 @@ $request = (object) [
     ],
 ];
 
+/*
 if(!isset($_POST['g-recaptcha-response']))
     $request->error->message = "Your recaptcha response is not set.";
 
 if(!$formatter->validateCaptcha($recaptcha_private_key, $_POST['g-recaptcha-response'])) 
     $request->error->message = "Invalid Recaptcha";
+*/
 
 if(empty($request->username))
     $request->error->message = "Your username cannot be empty.";
