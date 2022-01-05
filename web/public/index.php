@@ -275,10 +275,11 @@ $router->set404(function() {
     echo "PAGE DOESN'T EXIST";
 });
 
-$twig->addGlobal('metadata',  $metadata);
-$twig->addGlobal('session',   $_SESSION);
-$twig->addGlobal('get',       $_GET    );
-$twig->addGlobal('hardcoded', $init    );
+$twig->addGlobal('metadata',   $metadata);
+$twig->addGlobal('session',    $_SESSION);
+$twig->addGlobal('get',        $_GET    );
+$twig->addGlobal('hardcoded',  $init    );
+$twig->addGlobal('r_site_key', $recaptcha_site_key);
 unset($_SESSION['error']);
 $router->run();
 ?>

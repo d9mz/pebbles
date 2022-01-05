@@ -10,6 +10,8 @@ $init = (object) [
     "ffmpeg_binary" => "ffmpeg", 
     "ffprobe_binary" => "ffprobe", 
     "ffmpeg_threads" => 2, 
+    "recaptcha_site_key" => "6LdMFfMdAAAAAJ66vYhsEYfghwHpR3BvTpOwm-Td",
+    "recaptcha_private_key" => "6LdMFfMdAAAAAAfzmDIvlhWI5yu5vlmnWoe4oz9t",
 
     "db_properties" => (object) [
         "db_user" => "root",
@@ -19,5 +21,8 @@ $init = (object) [
         "db_connected" => false,
     ], 
 ];
+
+$recaptcha_site_key    = "6LdMFfMdAAAAAJ66vYhsEYfghwHpR3BvTpOwm-Td";
+$recaptcha_private_key = "6LdMFfMdAAAAAAfzmDIvlhWI5yu5vlmnWoe4oz9t";
 
 ?>

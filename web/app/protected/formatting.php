@@ -20,6 +20,11 @@ class Formatter {
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
 
+    function validateCaptcha($privatekey, $response) {
+        $responseData = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$privatekey.'&response='.$response));
+        return $responseData->success;
+    }
+
     function remove_emoji($text) {
 
         $clean_text = "";

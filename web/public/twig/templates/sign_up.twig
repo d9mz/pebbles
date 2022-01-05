@@ -1,12 +1,14 @@
 {% extends "base.twig" %}
 
 {%- block top_right -%}
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+    <script>function onLogin(token){ document.getElementById('sign_up_form').submit(); }</script>
     <div class="mod-light">
         <div id="normal-bar">
             <h2>Sign Up</h2>
         </div>
         <span class="text">
-            <form action="/request/sign_up" method="POST">
+            <form action="/request/sign_up" id="sign_up_form" method="POST">
                 <span class="text-form">
                     <b>Username</b><br>
                     Your username has to be shorter than 32 characters and longer than 6 characters. It must not contain any special characters.<br>
@@ -26,7 +28,7 @@
                     <span style="color:red">* this input is required</span>
                 </span>
                 <input type="password" name="pebble_password" placeholder="Password" class="generic-input"><br><br>
-                <input type="submit" value="Sign Up">
+                <input type="submit" value="Sign Up"  class="g-recaptcha" data-sitekey="{{ r_site_key }}">
             </form>
         </span> 
     </div>
