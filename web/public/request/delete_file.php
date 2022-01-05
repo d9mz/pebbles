@@ -17,28 +17,37 @@ $insert = new \Database\Insert\Inserter($__db);
 
 $request = (object) [
     "username" => $_SESSION['domainname'],
-    "filename" => $_GET['file'],
+    "filename" => $_POST['file'],
 
     "error"    => (object) [
         "message" => ""
     ],
 ];
 
-$file = $fetch->fetch_file($_SESSION['domainname'], $_GET['file']);
+$file = $fetch->fetch_file($_SESSION['domainname'], $request->filename);
 
-if(!isset($request->filename) && empty(trim($request->filename))) {
-    $request->error->message = "Your file does not exist";
-} 
+if (!empty($_POST['token'])) {
+    if (hash_equals($_SESSION['token'], $_POST['token'])) {
+        if(!isset($request->filename) && empty(trim($request->filename))) {
+            $request->error->message = "Your file does not exist";
+        } 
 
-if($file['belongs_to'] != $_SESSION['domainname'])
-    $request->error->message = "This file does not belong to you.";
+        if($file['belongs_to'] != $_SESSION['domainname'])
+            $request->error->message = "This file does not belong to you.";
 
-if($request->error->message == "") {
-    $stmt = $__db->prepare("DELETE FROM files WHERE file_name=:file_name AND belongs_to=:belongs_to");
-    $stmt->execute(array(
-      ':file_name' => $request->filename,
-      ':belongs_to' => $request->username,
-    ));
+        if($request->error->message == "") {
+            $stmt = $__db->prepare("DELETE FROM files WHERE file_name=:file_name AND belongs_to=:belongs_to");
+            $stmt->execute(array(
+            ':file_name' => $request->filename,
+            ':belongs_to' => $request->username,
+            ));
+        } else {
+            $_SESSION['error'] = $request->error;
+        }
+    } else {
+        $request->error->message = "Invalid CSRF token.";
+        $_SESSION['error'] = $request->error;
+    }
 }
 
 header("Location: /edit_site");

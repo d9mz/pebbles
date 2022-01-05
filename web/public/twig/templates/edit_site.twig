@@ -1,6 +1,7 @@
 {% extends "base.twig" %}
 
 {%- block top_right -%}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <div class="mod-light">
             <div id="normal-bar">
                 {% if current_dir != "" %}
@@ -34,23 +35,23 @@
                         {% endif %}
                         {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
                             <span style="float: right">
-                                <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Delete</button></a>
+                                <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="height: 16px;">Delete</button></a>
                                 <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
                             </span><br>
                         {% else %}
                             {% if file.ext != "" %}
                                 {% if (file.parent == "/") %}
                                     <span style="float: right">
-                                        <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                                        <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
                                     </span><br>
                                 {% else %}
                                     <span style="float: right">
-                                        <a href="/edit_file?file={{ file.file_name|escape }}&dir={{ current_dir }}"><button style="height: 16px;">Edit</button></a> <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                                        <a href="/edit_file?file={{ file.file_name|escape }}&dir={{ current_dir }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
                                     </span><br>
                                 {% endif %}
                             {% else %}
                                 <span style="float: right">
-                                    <a href="/request/delete_file?file={{ file.file_name|escape }}"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
+                                    <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
                                 </span><br>
                             {% endif %}
                         {% endif %}
@@ -61,5 +62,19 @@
                 {% endif %}
             </span>
         </div>
+        <script>
+            function request_deletion(file) {
+                var csrf_token = "{{ form_token() }}";
+                var endpoint   = "/request/delete_file";
+
+                console.log(csrf_token + endpoint);
+
+                $.post( endpoint, { file: file, token: csrf_token })
+                    .done(function( data ) {
+                        location.reload();
+                        //actually add alert popup but for now just use this
+                });
+            }
+        </script>
     </div>
 {% endblock %}
