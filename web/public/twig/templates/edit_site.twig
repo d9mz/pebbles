@@ -30,7 +30,7 @@
                             {% else %}
                                 <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
                             {% endif %}
-                        {% else %}
+                        {% elseif file.type == "folder" %}
                             <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
                         {% endif %}
                         {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
@@ -49,7 +49,7 @@
                                         <a href="/edit_file?file={{ file.file_name|escape }}&dir={{ current_dir }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
                                     </span><br>
                                 {% endif %}
-                            {% else %}
+                            {% elseif file.type == "folder" %}
                                 <span style="float: right">
                                     <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
                                 </span><br>
