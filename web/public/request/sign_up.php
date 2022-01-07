@@ -37,7 +37,7 @@ if(!$formatter->validateCaptcha($recaptcha_private_key, $_POST['g-recaptcha-resp
     $request->error->message = "Invalid Recaptcha";
 */
 
-die("Registration temporarily closed");
+// die("Registration temporarily closed");
 
 if(empty($request->username))
     $request->error->message = "Your username cannot be empty.";
