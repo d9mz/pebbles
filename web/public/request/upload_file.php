@@ -24,6 +24,11 @@ $request = (object) [
     ],
 ];
 
+if(isset($_GET['dir']) && empty(trim($_GET['dir'])))
+    $request->error->message = "Directory not valid";
+else if(isset($_GET['dir']) && !empty(trim($_GET['dir'])))
+    $request->directory = $_GET['dir'];
+
 $target_dir = "../assets/img/";
 $imageFileType = strtolower(pathinfo($_FILES["file_upload"]["name"],PATHINFO_EXTENSION));
 $target_name = preg_replace("/[^a-zA-Z0-9.]/", "", $_FILES["file_upload"]["name"]);
@@ -56,12 +61,20 @@ if ($request->error->message == "") {
     if (!move_uploaded_file($_FILES["file_upload"]["tmp_name"], $target_file)) {
         $request->error->message = "Sorry, there was an error uploading your file.";
     } else {
-        $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to) VALUES (:file_name, :contents, :belongs_to)");
-        $stmt->bindParam(":file_name", $target_name);
-        $stmt->bindParam(":contents", $request->filename);
-        // $stmt->bindParam(":mime_type", $request->mime_type);
-        $stmt->bindParam(":belongs_to", $request->username);
-        $stmt->execute();
+        if(isset($request->directory)) {
+            $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to, parent) VALUES (:file_name, :contents, :belongs_to, :parent)");
+            $stmt->bindParam(":file_name", $target_name);
+            $stmt->bindParam(":contents", $request->filename);
+            $stmt->bindParam(":belongs_to", $request->username);
+            $stmt->bindParam(":parent", $request->directory);
+            $stmt->execute();
+        } else {
+            $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to) VALUES (:file_name, :contents, :belongs_to)");
+            $stmt->bindParam(":file_name", $target_name);
+            $stmt->bindParam(":contents", $request->filename);
+            $stmt->bindParam(":belongs_to", $request->username);
+            $stmt->execute();
+        }
     }
 } else {
     $_SESSION['error'] = $request->error;

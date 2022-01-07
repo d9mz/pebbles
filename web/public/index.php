@@ -121,14 +121,14 @@ $router->get('/new_folder', function() use ($twig, $__db, $formatter, $insert, $
 $router->get('/upload_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     echo $twig->render('upload_file.twig', 
         array(
-
+            'current_dir' => @$_GET['dir'],
         )
     );
 });
 
 $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     if(!isset($_GET['dir'])) {
-        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = '/' ORDER BY id DESC");
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = '/' ORDER BY type DESC");
         $files_search->bindParam(":username", $_SESSION['domainname']);
         $files_search->execute();
         
@@ -139,7 +139,7 @@ $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $f
 
         $files['rows'] = $files_search->rowCount();
     } else {
-        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = :parent ORDER BY id DESC");
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = :parent ORDER BY type DESC");
         $files_search->bindParam(":username", $_SESSION['domainname']);
         $files_search->bindParam(":parent", $_GET['dir']);
         $files_search->execute();

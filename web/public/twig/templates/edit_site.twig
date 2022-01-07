@@ -19,6 +19,15 @@
                 >
                     <button>Create File</button>
                 </a> 
+                <a 
+                    {% if current_dir != "" %}
+                        href="/upload_file?dir={{ current_dir }}"
+                    {% else %}
+                        href="/upload_file"
+                    {% endif %}
+                >
+                    <button>Upload File</button>
+                </a> 
                 <a href="/new_folder"><button>Create Folder</button></a>
             </div>
             <span class="text" style="margin-left: 32px;width: 95%;">

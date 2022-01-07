@@ -24,10 +24,13 @@
                             <h2>Create a File</h2>
                         </div>
                         <span class="text">
-                            <form action="/request/upload_file" method="POST" enctype="multipart/form-data">
+                            <form action="/request/upload_file{% if current_dir != "" %}?dir={{ current_dir }}{% endif %}" method="POST" enctype="multipart/form-data">
                                 <span class="text-form">
                                     <b>File Input</b><br>
                                     Must only be an image file.<br>
+                                    {% if current_dir != "" %}
+                                        This file will be in the {{ current_dir }} folder.<br>
+                                    {% endif %}
                                     <span style="color:red">* this input is required</span>
                                 </span>
                                 <input type="file" name="file_upload" id="file_upload" class="generic-input"><br><br>
