@@ -113,7 +113,7 @@ $router->get('/new_file', function() use ($twig, $__db, $formatter, $insert, $fe
 $router->get('/new_folder', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     echo $twig->render('new_folder.twig', 
         array(
-
+            'current_dir' => @$_GET['dir'],
         )
     );
 });

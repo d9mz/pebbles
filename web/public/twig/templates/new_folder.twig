@@ -6,9 +6,12 @@
             <h2>Create a Folder</h2>
         </div>
         <span class="text">
-            <form action="/request/make_folder" method="POST">
+            <form action="/request/make_folder{% if current_dir != "" %}?dir={{ current_dir }}{% endif %}" method="POST">
                 <span class="text-form">
                     <b>Folder Name</b><br>
+                    {% if current_dir != "" %}
+                        This file will be in the {{ current_dir }} folder.<br>
+                    {% endif %}
                     <span style="color:red">* this input is required</span>
                 </span>
                 <input type="text" name="folder_name" placeholder="Folder Name" class="generic-input"><br><br>

@@ -28,7 +28,15 @@
                 >
                     <button>Upload File</button>
                 </a> 
-                <a href="/new_folder"><button>Create Folder</button></a>
+                <a 
+                    {% if current_dir != "" %}
+                        href="/new_folder?dir={{ current_dir }}"
+                    {% else %}
+                        href="/new_folder"
+                    {% endif %}
+                >
+                    <button>Create Folder</button>
+                </a> 
             </div>
             <span class="text" style="margin-left: 32px;width: 95%;">
                 {% for file in files_row %}
@@ -40,7 +48,7 @@
                                 <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
                             {% endif %}
                         {% elseif file.type == "folder" %}
-                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
+                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{% if current_dir != "" %}{{ current_dir|replace({'/': ''}) }}/{% endif %}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
                         {% endif %}
                         {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
                             <span style="float: right">

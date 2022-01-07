@@ -31,6 +31,12 @@ if(substr($request->folder_name , -1) != '/'){
 
 $file = $fetch->fetch_file($_SESSION['domainname'], $request->folder_name);
 
+
+if(isset($_GET['dir']) && empty(trim($_GET['dir'])))
+    $request->error->message = "Directory not valid";
+else if(isset($_GET['dir']) && !empty(trim($_GET['dir'])))
+    $request->directory = $_GET['dir'];
+
 if(isset($file['id']))
     $request->error->message = "A folder with the same name exists!";
 
@@ -38,11 +44,20 @@ if(empty(trim($request->folder_name)))
     $request->error->message = "Your folder does not exist";
 
 if($request->error->message == "") {
-    $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to, parent, type) VALUES (:folder_name, :contents, :belongs_to, '/', 'folder')");
-    $stmt->bindParam(":folder_name", $request->folder_name);
-    $stmt->bindParam(":contents", $request->content);
-    $stmt->bindParam(":belongs_to", $request->username);
-    $stmt->execute();
+    if(isset($request->directory)) {
+        $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to, parent, type) VALUES (:folder_name, :contents, :belongs_to, :parent, 'folder')");
+        $stmt->bindParam(":folder_name", $request->folder_name);
+        $stmt->bindParam(":contents", $request->content);
+        $stmt->bindParam(":belongs_to", $request->username);
+        $stmt->bindParam(":parent", $request->directory);
+        $stmt->execute();
+    } else {
+        $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to, parent, type) VALUES (:folder_name, :contents, :belongs_to, '/', 'folder')");
+        $stmt->bindParam(":folder_name", $request->folder_name);
+        $stmt->bindParam(":contents", $request->content);
+        $stmt->bindParam(":belongs_to", $request->username);
+        $stmt->execute();
+    }
 } else {
     $_SESSION['error'] = $request->error;
 }
