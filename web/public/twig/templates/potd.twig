@@ -1,0 +1,45 @@
+{% extends "base.twig" %}
+
+{%- block top_right -%}
+    {#
+        You'd benefit from not letting inline styles accumulate.
+        Please clean these up later.
+        (also manual escaping is not necessary in Twig; echoed variables are automatically escaped)
+    #}
+    <div class="mod-light">
+        <img src="/assets/built-in/img/Group_12.png" style="width: 100%;">
+        <hr>
+        <span class="text">
+            These are sites that people have made and have been selected to be featured by the Pebbles' staff. 
+        </span><br><br>
+        <hr>
+        {% set site_am = 0 %}
+        {% for site in sites %}
+            {% if site.id is defined %}    
+                <div class="site-item" style="overflow: auto;">
+                    {% if site.domain|length > 14 %}
+                        <h3 style="display: inline-block;{% if site_am == 0 %}font-size:25px;{% endif %}"><a style="{% if site_am == 0 %}color:gold !important;{% endif %}" href="/site/{{ site.domain }}/index.html">{{ site.domain|length > 10 ? site.domain|slice(0, 10) ~ '...' : site.domain  }}</a></h3>
+                    {% else %}
+                        <h2 style="display: inline-block;{% if site_am == 0 %}font-size:25px;{% endif %}"><a style="{% if site_am == 0 %}color:gold !important;{% endif %}" href="/site/{{ site.domain }}/index.html">{{ site.domain }}</a></h2>
+                    {% endif %}
+                    {% if site_am == 0 %}<small style="margin-left: 5px;">(current site of the day)</small>{% endif %}
+                    <br>
+                    <span style="padding-top:5px;display:inline-block;">
+                        {{ site.user_bio|escape }}
+                    </span>
+                    {% if site_am == 0 %}
+                        <img style="width:150px;padding:10px;padding-left:0px;float:left;clear:left;" src="http://free.pagepeeker.com/v2/thumbs.php?size=x&url=pebbbles.net/site/{{ site.domain }}/index.html"><br>
+                    {% endif %}
+                    <span class="site-info">
+                    by {{ site.username }}<br>
+                    ...last updated at <i>{{ site.last_login|date("h:iA") }}</i><br>
+                    </span>
+                </div><br>
+                {% if site_am == 0 %}
+                <hr>
+                {% endif %}
+                {% set site_am = site_am + 1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

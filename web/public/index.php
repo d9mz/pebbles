@@ -92,6 +92,19 @@ $router->get('/sign_in', function() use ($twig, $__db, $formatter, $insert, $fet
     echo $twig->render('sign_in.twig', array());
 });
 
+$router->get('/potd', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    $sites_search = $__db->prepare("SELECT * FROM users WHERE featured = 'ye' ORDER BY id DESC LIMIT 20");
+	$sites_search->execute();
+	
+	while($site = $sites_search->fetch(PDO::FETCH_ASSOC)) { 
+		$sites[] = $site;
+	}
+
+	$sites['rows'] = $sites_search->rowCount();
+
+    echo $twig->render('potd.twig', array('sites' => $sites,));
+});
+
 $router->get('/edit_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     $file = $fetch->fetch_file($_SESSION['domainname'], $_GET['file']);
 
