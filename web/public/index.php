@@ -259,7 +259,7 @@ $router->get('/site/(\w+)/(.*)', function($username, $file_name) use ($twig, $__
     }
 
     if(!isset($file['id'])) 
-        die("This file does not exist!");
+        die("<marquee>This file does not exist!</marquee>");
 
     $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
        
@@ -283,9 +283,8 @@ $router->get('/site/(\w+)/(.*)', function($username, $file_name) use ($twig, $__
     echo $file['contents'];
 });
 
-$router->set404(function() {
-    header('HTTP/1.1 404 Not Found');
-    echo "PAGE DOESN'T EXIST";
+$router->set404(function() use ($twig) {
+    echo $twig->render('404.twig', array());
 });
 
 $twig->addGlobal('metadata',   $metadata);
