@@ -93,7 +93,7 @@ $router->get('/sign_in', function() use ($twig, $__db, $formatter, $insert, $fet
 });
 
 $router->get('/potd', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
-    $sites_search = $__db->prepare("SELECT * FROM users WHERE featured = 'ye' ORDER BY id DESC LIMIT 20");
+    $sites_search = $__db->prepare("SELECT * FROM users WHERE featured = 'ye' ORDER BY id DESC, featured LIMIT 20");
 	$sites_search->execute();
 	
 	while($site = $sites_search->fetch(PDO::FETCH_ASSOC)) { 
