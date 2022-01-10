@@ -291,7 +291,7 @@ button img {
     width: 300px;
     background-image: url('/assets/built-in/img/search_icon.png');
     background-repeat: no-repeat;
-    background-position: 1% 140%;
+    background-position: right 140%;
     background-size: 20px;
 }
 

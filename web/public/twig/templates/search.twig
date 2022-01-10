@@ -1,18 +1,14 @@
 {% extends "base.twig" %}
 
+{#
+    Why is this here? See "base.twig" for the base template.
+#}
+
 {%- block top_right -%}
-    {#
-        You'd benefit from not letting inline styles accumulate.
-        Please clean these up later.
-        (also manual escaping is not necessary in Twig; echoed variables are automatically escaped)
-    #}
     <div class="mod-light">
-        <img src="/assets/built-in/img/Group_12.png" style="width: 100%;">
-        <hr>
-        <span class="text">
-            These are sites that people have made and have been selected to be featured by the Pebbles' staff. 
-        </span><br><br>
-        <hr>
+        <div id="normal-bar">
+            <h2>Search Results for "{{ get.search_query }}"</h2>
+        </div><br>
         {% set site_am = 0 %}
         {% for site in sites %}
             {% if site.id is defined %}    

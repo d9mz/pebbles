@@ -92,6 +92,23 @@ $router->get('/sign_in', function() use ($twig, $__db, $formatter, $insert, $fet
     echo $twig->render('sign_in.twig', array());
 });
 
+$router->get('/search', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    $sites_search = $__db->prepare("SELECT * FROM users WHERE username LIKE :search_query ORDER BY id DESC, featured LIMIT 100");
+    $search = "%" . $_GET['search_query'] . "%";
+    $sites_search->bindParam(":search_query", $search);
+	$sites_search->execute();
+	
+	while($site = $sites_search->fetch(PDO::FETCH_ASSOC)) { 
+		$sites[] = $site;
+	}
+
+	$sites['rows'] = $sites_search->rowCount();
+    
+    echo $twig->render('search.twig', array(
+        'sites' => $sites,
+    ));
+});
+
 $router->get('/potd', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     $sites_search = $__db->prepare("SELECT * FROM users WHERE featured = 'ye' ORDER BY id DESC, featured LIMIT 20");
 	$sites_search->execute();
