@@ -234,3 +234,84 @@ button, input[type="submit"] {
     font-size: 11px;
     height: 27px;
 }
+
+/* Dropdown Button */
+.dropbtn {
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    min-width: 100px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1C291C;
+    min-width: 100px;
+    box-shadow: 1px 1px 1px 1px #384F37;
+    z-index: 1;
+    text-align: left;
+}
+
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}
+
+.modal {
+    display: none;
+    background-color: #1C291C;
+    padding: 10px;
+    box-shadow: 1px 1px 1px 1px #384F37;
+}
+
+button img {
+    margin-right:5px;
+    vertical-align: middle;
+}
+
+.search-bar {
+    display: inline-block;
+    opacity: 0.7;
+    vertical-align: middle;
+}
+
+.search-bar input {
+    width: 300px;
+    background-image: url('/assets/built-in/img/search_icon.png');
+    background-repeat: no-repeat;
+    background-position: 1% 140%;
+    background-size: 20px;
+}
+
+.welcome-back {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+    opacity: 0.5;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: #dfdfdf;
+    padding: 4px 5px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #1f291f}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;} 

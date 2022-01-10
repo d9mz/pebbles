@@ -1,15 +1,57 @@
 <a href="/"><img src="/assets/built-in/img/white_logo.png" id="logo"></a>
 <div id="user-bar">
     {% if session.siteusername is defined %}
-        <a href="/user/{{ session.siteusername|escape }}/">{{ session.siteusername|escape }}</a> 
-        &bull; 
-        <a href="/edit_site">Edit Site</a> 
-        &bull; 
-        <a href="/new_file">New File</a>
-        &bull;
-        <a href="/upload_file">Upload File</a>
-        &bull;
-        <a href="/request/log_out">Sign Out</a>
+        <!--
+            <a href="/user/{{ session.siteusername|escape }}/">{{ session.siteusername|escape }}</a> 
+            &bull; 
+            <a href="/edit_site">Edit Site</a> 
+            &bull; 
+            <a href="/new_file">New File</a>
+            &bull;
+            <a href="/upload_file">Upload File</a>
+            &bull;
+            <a href="/request/log_out">Sign Out</a>
+        -->
+        <span class="welcome-back">
+            Welcome back, <b>{{ session.siteusername|escape }}!</b><br>
+            You have no new notifications.
+        </span>
+
+        <form class="search-bar" method="GET" action="/search">
+            <input class="generic-input" type="text" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search through People, Sites and Files..." name="search_query">
+        </form>
+
+        <div class="dropdown">
+            <button style="min-width: 100px;" onclick="header_dropdown()" class="dropbtn">
+                <span style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:3px;background-color:{{ session.usercolor }};"></span>
+                {{ session.siteusername|escape }}
+            </button>
+            <div id="dropdown" class="dropdown-content">
+                <a href="/edit_site">File Manager</a>
+                <a href="/user/{{ session.siteusername|escape }}/">My Account</a>
+                <hr>
+                <a href="/request/log_out">Sign Out</a>
+            </div>
+        </div> 
+
+        <script>
+            function header_dropdown() {
+                document.getElementById("dropdown").classList.toggle("show");
+            }
+
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            } 
+        </script>
     {% else %}
         <a href="/sign_in">
             <button class="sign_in_button">

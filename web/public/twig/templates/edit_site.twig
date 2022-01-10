@@ -1,41 +1,26 @@
 {% extends "base.twig" %}
 
-{%- block top_right -%}
+{%- block head -%}
+    {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/assets/built-in/js/jquery.plainmodal.min.js"></script>
+{% endblock %}
+
+{%- block top_right -%}
     <div class="mod-light">
             <div id="normal-bar">
-                {% if current_dir != "" %}
-                    <h2>{{ current_dir }}</h2>
-                {% else %}
-                    <h2>Your Site's Files</h2> 
-                {% endif %}
-                <a 
-                    style="margin-left:30px;" 
-                    {% if current_dir != "" %}
-                        href="/new_file?dir={{ current_dir }}"
-                    {% else %}
-                        href="/new_file"
-                    {% endif %}
-                >
-                    <button>Create File</button>
+                <h2>File Manager <span class="js_current_dir">(/)</span></h2> 
+                <a style="margin-left: 50px;" href="#" onclick=";$('#new_file').plainModal('open');">
+                    <button><img src="/assets/built-in/img/el_file-new.png">Create File</button>
                 </a> 
-                <a 
-                    {% if current_dir != "" %}
-                        href="/upload_file?dir={{ current_dir }}"
-                    {% else %}
-                        href="/upload_file"
-                    {% endif %}
-                >
-                    <button>Upload File</button>
+                <a href="#" onclick=";$('#upload_file').plainModal('open');">
+                    <button><img src="/assets/built-in/img/fa-solid_upload.png">Upload File</button>
                 </a> 
-                <a 
-                    {% if current_dir != "" %}
-                        href="/new_folder?dir={{ current_dir }}"
-                    {% else %}
-                        href="/new_folder"
-                    {% endif %}
-                >
-                    <button>Create Folder</button>
+                <a href="#" onclick=";$('#create_folder').plainModal('open');">
+                    <button><img src="/assets/built-in/img/ic_sharp-create-new-folder.png">Create Folder</button>
+                </a> 
+                <a href="#" onclick=";open_preview();">
+                    <button><img src="/assets/built-in/img/fa-solid_globe-europe.png">Preview</button>
                 </a> 
             </div>
             <span class="text" style="margin-left: 32px;width: 95%;">
@@ -92,6 +77,53 @@
                         //actually add alert popup but for now just use this
                 });
             }
+
+            function open_preview() {
+                preview_window = window.open( `/site/{{ session.domainname }}/index.html`, "Pebbles: Preview Site", "width=480,height=360" );
+            }
         </script>
+        <div id="new_file" class="modal">
+            <form action="/request/make_file{% if current_dir != "" %}?dir={{ current_dir }}{% endif %}" method="POST">
+                <span class="text-form">
+                    <b>File Name</b><br>
+                    Must end with a file extension.<br>
+                    {% if current_dir != "" %}
+                        This file will be in the {{ current_dir }} folder.<br>
+                    {% endif %}
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="text" name="file_name" placeholder="File Name" class="generic-input"><br><br>
+                <input type="submit" value="Make File">
+            </form>
+		</div>
+
+        <div id="upload_file" class="modal">
+			<form action="/request/upload_file{% if current_dir != "" %}?dir={{ current_dir }}{% endif %}" method="POST" enctype="multipart/form-data">
+                <span class="text-form">
+                    <b>File Input</b><br>
+                    Must only be an image file.<br>
+                    {% if current_dir != "" %}
+                        This file will be in the {{ current_dir }} folder.<br>
+                    {% endif %}
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="file" name="file_upload" id="file_upload" class="generic-input"><br><br>
+                <input type="submit" name="submit" value="Upload File">
+            </form>
+		</div>
+
+        <div id="create_folder" class="modal">
+            <form action="/request/make_folder{% if current_dir != "" %}?dir={{ current_dir }}{% endif %}" method="POST">
+                <span class="text-form">
+                    <b>Folder Name</b><br>
+                    {% if current_dir != "" %}
+                        This file will be in the {{ current_dir }} folder.<br>
+                    {% endif %}
+                    <span style="color:red">* this input is required</span>
+                </span>
+                <input type="text" name="folder_name" placeholder="Folder Name" class="generic-input"><br><br>
+                <input type="submit" value="Make Folder">
+            </form>
+        </div>
     </div>
 {% endblock %}

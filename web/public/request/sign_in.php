@@ -48,6 +48,7 @@ if($request->error->message == "") {
     $_SESSION['siteusername'] = $request->username;
     $user = $fetch->fetch_table_singlerow($request->username, "users", "username");
     $_SESSION['domainname'] = $user['domain'];
+    $_SESSION['usercolor'] = $user['color'];
     header("Location: /");
 } else {
     $_SESSION['error'] = $request->error;

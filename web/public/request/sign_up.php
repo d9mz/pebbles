@@ -73,6 +73,7 @@ if($request->error->message == "") {
 
     $_SESSION['siteusername'] = $request->username;
     $_SESSION['domainname'] = $request->sitename;
+    $_SESSION['usercolor'] = $request->color;
 
     $stmt = $__db->prepare("INSERT INTO files (file_name, contents, belongs_to) VALUES (:file_name, :contents, :belongs_to)");
     $stmt->bindParam(":file_name", $request->filename);
