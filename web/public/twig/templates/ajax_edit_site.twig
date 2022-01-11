@@ -1,0 +1,29 @@
+{% for file in files_row %}
+    {% if file.id is defined %}
+        {% if file.ext != "" %}
+            {% if (file.parent != "/") %}
+                <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a file-name="{{ file.file_name|escape }}" onclick="change_file_no_rf('{{ current_dir }}{{ file.file_name|escape }}')" onclick="change_dir('{{ current_dir }}{{ file.file_name|escape }}');" href="#">{{ file.file_name|escape }}</a> 
+            {% else %}
+                <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a file-name="{{ file.file_name|escape }}" onclick="change_file_no_rf('{{ file.file_name|escape }}');" href="#">{{ file.file_name|escape }}</a> 
+            {% endif %}
+        {% elseif file.type == "folder" %}
+            <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a onclick="change_dir('{% if current_dir != "" %}{{ current_dir|replace({'/': ''}) }}/{% endif %}{{ file.file_name|escape }}');">{{ file.file_name|escape }}</a> 
+        {% endif %}
+        {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
+            <br>
+        {% else %}
+            {% if file.ext != "" %}
+                {% if (file.parent == "/") %}
+                    <br>
+                {% else %}
+                    <br>
+                {% endif %}
+            {% elseif file.type == "folder" %}
+                <br>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{% if files_row.rows == 0 %}
+    no files in this directory
+{% endif %}

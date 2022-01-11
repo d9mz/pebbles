@@ -1,0 +1,159 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/assets/built-in/js/codemirror.js"></script>
+<script src="/assets/built-in/js/toastr.js"></script>
+<script src="/assets/built-in/js/xml.js"></script>
+<script src="/assets/built-in/js/css.js"></script>
+<script src="/assets/built-in/js/javascript.js"></script>
+<script src="/assets/built-in/js/htmlmixed.js"></script>
+<script src="/assets/built-in/js/hint.js"></script>
+<script src="/assets/built-in/js/xml-hint.js"></script>
+<script src="/assets/built-in/js/html_hint.js"></script>
+<script src="/assets/built-in/js/css-hint.js"></script>
+<script src="/assets/built-in/js/show-hint.js"></script>
+<script src="/assets/built-in/js/javascript-hint.js"></script>
+<link href="/assets/built-in/css/codemirror.css" rel="stylesheet">
+<link href="/assets/built-in/css/toastr.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/3024-night.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/3024-day.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/abbott.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/abcdef.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/ambiance.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/ayu-dark.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/ayu-mirage.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/base16-dark.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/base16-light.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/bespin.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/pebbles.css" rel="stylesheet">
+<link href="/assets/built-in/css/themes/blackboard.css" rel="stylesheet">
+<link href="/assets/built-in/css/show-hint.css" rel="stylesheet">
+<style>
+    form {
+        position: relative;
+    }
+    .fullscreen, .CodeMirror .fullscreen {
+        display: block;
+        position: fixed;
+        top: 0; left: 0;
+        background-color: black;
+        width: 100%;
+        z-index: 9999;
+    }
+</style>
+
+<form id="edit_file" action="/request/update_file?file={{ file.file_name|escape }}" method="POST">
+    <audio id="save-audio">
+        <source src="/assets/built-in/sfx/save.mp3">
+    </audio> 
+    <input type="hidden" name="token" id="token" value="{{ form_token() }}" />
+    <div id="normal-bar" style="display: none;">
+        <h2>Editing {{ file.file_name|escape }}</h2>  
+        <button style="float:right" onclick="saveFile();">
+            Update File
+        </button>
+        <select onchange="selectTheme()" class="generic-input" style="float:right;width:100px;" id="select">
+            <option selected="">base16-dark</option>
+            <option>pebbles</option>
+            <option>default</option>
+            <option>3024-day</option>
+            <option>3024-night</option>
+            <option>abbott</option>
+            <option>abcdef</option>
+            <option>ayu-dark</option>
+            <option>ayu-mirage</option>
+            <option>base16-light</option>
+            <option>bespin</option>
+            <option>blackboard</option>
+        </select>
+    </div>
+    <span class="text">
+        <textarea name="contents" placeholder="Site HTML" id="content-html" class="generic-input">{{ file.contents|escape }}</textarea><br>
+    </span> 
+</form>
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("content-html"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: {
+            name: "htmlmixed"
+        }, 
+        
+        theme: "base16-dark", 
+        fontSize: 14,
+        autocorrect: true,
+        htmlMode: true,
+        styleActiveLine: true,
+        styleActiveSelected: true,
+        lineWrapping: true,
+        extraKeys: {
+            "F11": function(cm) {
+                cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+            },
+            "Esc": function(cm) {
+                if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+            }
+        }
+    });
+
+    jQuery(document).keydown(function(event) {
+        if((event.ctrlKey || event.metaKey) && event.which == 83) { 
+            saveFile();
+            event.preventDefault();
+            return false;
+        }
+
+
+        if ((event.keyCode == 122 || event.keyCode == 27) && event.type == 'keydown') {
+            return toggleFullscreenEditing();
+        }
+    });
+
+    function toggleFullscreenEditing() {
+        var editorDiv = $('.CodeMirror-scroll');
+        var actualDiv = $('.CodeMirror');
+        if (!editorDiv.hasClass('fullscreen')) {
+            toggleFullscreenEditing.beforeFullscreen = { height: editorDiv.height(), width: editorDiv.width() }
+            editorDiv.addClass('fullscreen');
+            actualDiv.addClass('fullscreen');
+            editorDiv.height('100%');
+            editorDiv.width('100%');
+            editor.refresh();
+        }
+        else {
+            editorDiv.removeClass('fullscreen');
+            actualDiv.removeClass('fullscreen');
+            editorDiv.height(toggleFullscreenEditing.beforeFullscreen.height);
+            editorDiv.width(toggleFullscreenEditing.beforeFullscreen.width);
+            editor.refresh();
+        }
+    }
+
+    editor.on("inputRead", function(instance) {
+        if (instance.state.completionActive) {
+                return;
+        }
+        var cur = instance.getCursor();
+        var token = instance.getTokenAt(cur);
+        if (token.type && token.type != "comment") {
+                CodeMirror.commands.autocomplete(instance);
+        }
+    });
+
+    
+    var input = document.getElementById("select");
+    function selectTheme() {
+        var theme = input.options[input.selectedIndex].textContent;
+        editor.setOption("theme", theme);
+        location.hash = "#" + theme;
+    }
+
+    function saveFile() {
+        $.post( $("#file-editor form").attr('action'), { token: $("#token").val(), contents: editor.getValue() })
+            .done(function( data ) {
+                $('#save-audio')[0].play();  
+                console.log("succes");
+                toastr.success('Successfully saved your file.')
+        });
+    }
+
+    editor.setSize(460, 442);
+</script>

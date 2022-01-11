@@ -58,4 +58,4 @@ if($request->error->message == "") {
 }
 
 // print_r($request);
-header("Location: /edit_file?file=" . $request->filename);
+header("Location: /edit_site");

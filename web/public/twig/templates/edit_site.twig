@@ -4,67 +4,63 @@
     {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/assets/built-in/js/jquery.plainmodal.min.js"></script>
+    <style>
+        .top-half-left {
+            float: left;
+            width: calc( 25% - 20px );
+            padding-left: 32px;
+            padding-top: 10px;
+            overflow: hidden; 
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+            color: #919690;
+            min-height: 453px;
+        }
+
+        .top-half-right {
+            float: right;
+            width: calc( 71% - 20px );
+        }
+
+        .top-half-left a {
+            color: #919690;
+        }
+    </style>
 {% endblock %}
 
 {%- block top_right -%}
-    <div class="mod-light">
+        <div class="mod-light" style="overflow:auto;">
             <div id="normal-bar">
-                <h2>File Manager <span class="js_current_dir">(/)</span></h2> 
-                <a style="margin-left: 50px;" href="#" onclick=";$('#new_file').plainModal('open');">
+                <h2>Editor</h2>
+                <a id="js_create_file" style="margin-left: 20px;" href="/new_file?dir={{ current_dir }}">
                     <button><img src="/assets/built-in/img/el_file-new.png">Create File</button>
                 </a> 
-                <a href="#" onclick=";$('#upload_file').plainModal('open');">
+                <a id="js_upload_file" href="/upload_file?dir={{ current_dir }}">
                     <button><img src="/assets/built-in/img/fa-solid_upload.png">Upload File</button>
                 </a> 
-                <a href="#" onclick=";$('#create_folder').plainModal('open');">
+                <a id="js_create_folder" href="/new_folder?dir={{ current_dir }}">
                     <button><img src="/assets/built-in/img/ic_sharp-create-new-folder.png">Create Folder</button>
                 </a> 
                 <a href="#" onclick=";open_preview();">
                     <button><img src="/assets/built-in/img/fa-solid_globe-europe.png">Preview</button>
                 </a> 
+                <a href="#" onclick=";change_dir('/');">
+                    <button>Previous Directory</button>
+                </a> 
             </div>
-            <span class="text" style="margin-left: 32px;width: 95%;">
-                {% for file in files_row %}
-                    {% if file.id is defined %}
-                        {% if file.ext != "" %}
-                            {% if (file.parent != "/") %}
-                                <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}{{ current_dir }}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
-                            {% else %}
-                                <img style="width: 16px;" src="/assets/built-in/img/file_browser/{{ file.ext }}.png"> <a href="/site/{{ session.domainname|escape }}/{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
-                            {% endif %}
-                        {% elseif file.type == "folder" %}
-                            <img style="width: 16px;" src="/assets/built-in/img/file_browser/folder.png"> <a href="/edit_site?dir=/{% if current_dir != "" %}{{ current_dir|replace({'/': ''}) }}/{% endif %}{{ file.file_name|escape }}">{{ file.file_name|escape }}</a> 
-                        {% endif %}
-                        {% if (file.ext == "png") or (file.ext == "jpg") or (file.ext == "jpeg") or (file.ext == "gif") %}
-                            <span style="float: right">
-                                <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="height: 16px;">Delete</button></a>
-                                <img style="width:16px;height: 14px;" src="/assets/img/{{ file.file_name }}">
-                            </span><br>
-                        {% else %}
-                            {% if file.ext != "" %}
-                                {% if (file.parent == "/") %}
-                                    <span style="float: right">
-                                        <a href="/edit_file?file={{ file.file_name|escape }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
-                                    </span><br>
-                                {% else %}
-                                    <span style="float: right">
-                                        <a href="/edit_file?file={{ file.file_name|escape }}&dir={{ current_dir }}"><button style="height: 16px;">Edit</button></a> <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
-                                    </span><br>
-                                {% endif %}
-                            {% elseif file.type == "folder" %}
-                                <span style="float: right">
-                                    <a href="#" onclick="request_deletion('{{ file.file_name|escape }}');"><button style="margin-right: 20px;height: 16px;">Delete</button></a>
-                                </span><br>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-                {% if files_row.rows == 0 %}
-                    You have no files. Do you want to <a href="/new_file">make one?</a>
-                {% endif %}
-            </span>
+            <div class="top-half-left" id="file-browser">
+                Loading...
+            </div>
+            <div class="top-half-right" id="file-editor">
+                Loading...
+            </div>
         </div>
         <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                change_dir("/");
+                change_file("index.html");
+            });
+
             function request_deletion(file) {
                 var csrf_token = "{{ form_token() }}";
                 var endpoint   = "/request/delete_file";
@@ -78,8 +74,43 @@
                 });
             }
 
+            function change_file(file) {
+                var endpoint   = "/ajax_edit_file?file=";
+
+                $.get( endpoint + file, function( data ) {
+                    $( "#file-editor" ).html( data );
+                    console.log(endpoint + file);
+                });
+
+                $("#file-editor form").attr('action', '/request/update_file?file=' + file.split("/").at(-1));
+            }
+
+            function change_file_no_rf(file) {
+                editor.setValue("Loading your file...");
+                var endpoint   = "/site/{{ session.domainname|escape }}/";
+
+                $.get( endpoint + file, function( data ) {
+                    editor.setValue(data);
+                    console.log(endpoint + file);
+                });
+
+                $("#file-editor form").attr('action', '/request/update_file?file=' + file.split("/").at(-1));
+            }
+
             function open_preview() {
                 preview_window = window.open( `/site/{{ session.domainname }}/index.html`, "Pebbles: Preview Site", "width=480,height=360" );
+            }
+
+            function change_dir(dir) {
+                var endpoint   = "/ajax_edit_site?dir=";
+                $("#js_create_file").attr('href',   '/new_file?dir=' + dir);
+                $("#js_upload_file").attr('href',   '/upload_file?dir=' + dir);
+                $("#js_create_folder").attr('href', '/new_folder?dir=' + dir);
+
+                $.get( endpoint + dir, function( data ) {
+                    $( "#file-browser" ).html( data );
+                    console.log(endpoint + dir);
+                });
             }
         </script>
         <div id="new_file" class="modal">

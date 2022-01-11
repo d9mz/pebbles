@@ -132,6 +132,16 @@ $router->get('/edit_file', function() use ($twig, $__db, $formatter, $insert, $f
     );
 });
 
+$router->get('/ajax_edit_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    $file = $fetch->fetch_file($_SESSION['domainname'], $_GET['file']);
+
+    echo $twig->render('ajax_edit_file.twig', 
+        array(
+            'file' => $file,
+        )
+    );
+});
+
 $router->get('/new_file', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
     echo $twig->render('new_file.twig', 
         array(
@@ -183,6 +193,40 @@ $router->get('/edit_site', function() use ($twig, $__db, $formatter, $insert, $f
     }
 
     echo $twig->render('edit_site.twig', 
+        array(
+            'current_dir' => @$_GET['dir'],
+            'files_row' => $files,
+        )
+    );
+});
+
+$router->get('/ajax_edit_site', function() use ($twig, $__db, $formatter, $insert, $fetch) { 
+    if(!isset($_GET['dir'])) {
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = '/' ORDER BY type DESC");
+        $files_search->bindParam(":username", $_SESSION['domainname']);
+        $files_search->execute();
+        
+        while($file = $files_search->fetch(PDO::FETCH_ASSOC)) { 
+            $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
+            $files[] = $file;
+        }
+
+        $files['rows'] = $files_search->rowCount();
+    } else {
+        $files_search = $__db->prepare("SELECT * FROM files WHERE belongs_to = :username AND parent = :parent ORDER BY type DESC");
+        $files_search->bindParam(":username", $_SESSION['domainname']);
+        $files_search->bindParam(":parent", $_GET['dir']);
+        $files_search->execute();
+        
+        while($file = $files_search->fetch(PDO::FETCH_ASSOC)) { 
+            $file['ext'] = pathinfo($file['file_name'], PATHINFO_EXTENSION);
+            $files[] = $file;
+        }
+
+        $files['rows'] = $files_search->rowCount();
+    }
+
+    echo $twig->render('ajax_edit_site.twig', 
         array(
             'current_dir' => @$_GET['dir'],
             'files_row' => $files,
